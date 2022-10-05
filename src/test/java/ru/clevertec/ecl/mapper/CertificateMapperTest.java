@@ -6,6 +6,8 @@ import ru.clevertec.ecl.dto.CertificateDto;
 import ru.clevertec.ecl.entity.Certificate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForUpdateDuration;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoUpdatedDuration;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoWithId1;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId1;
 
@@ -23,5 +25,12 @@ class CertificateMapperTest {
     void checkToEntity() {
         Certificate actual = mapper.toEntity(certificateDtoWithId1());
         assertThat(actual).isEqualTo(certificateWithId1());
+    }
+
+    @Test
+    void checkUpdateDto() {
+        CertificateDto actual = certificateDtoWithId1();
+        mapper.updateDto(certificateDtoForUpdateDuration(), actual);
+        assertThat(actual).isEqualTo(certificateDtoUpdatedDuration());
     }
 }

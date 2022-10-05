@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateForSaveWithId;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateForSaveWithoutId;
-import static ru.clevertec.ecl.util.CertificateUtil.certificateForUpdateWithId;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateUpdatedDuration;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId1;
 import static ru.clevertec.ecl.util.CertificateUtil.certificates;
 import static ru.clevertec.ecl.util.CertificateUtil.matcher;
@@ -90,8 +90,8 @@ public class CertificateRepositoryTest extends IntegrationTestBase {
 
     @Test
     void checkUpdateIfCertificateHasUniqueIdAndUniqueName() {
-        Certificate actual = repository.save(certificateForUpdateWithId());
-        assertEquals(certificateForUpdateWithId(), actual);
+        Certificate actual = repository.save(certificateUpdatedDuration());
+        assertEquals(certificateUpdatedDuration(), actual);
     }
 
     @Test

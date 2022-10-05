@@ -72,6 +72,12 @@ public class CertificateUtil {
                 Arrays.asList(TAG, TAG_5));
     }
 
+    public static Certificate certificateUpdatedDuration() {
+        return new Certificate(1, "first", "first description",
+                BigDecimal.valueOf(10.23), 20, LocalDateTime.now(), LocalDateTime.now(),
+                Arrays.asList(TAG, TAG_5));
+    }
+
     public static Certificate certificateForSaveWithId() {
         return new Certificate(6, "sixth", "sixth description",
                 BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
@@ -132,9 +138,15 @@ public class CertificateUtil {
                 Arrays.asList(TAG_DTO, TAG_DTO_5));
     }
 
-    public static CertificateDto certificateDtoForUpdateWithId() {
-        return new CertificateDto(1, "sixth", "first description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
+    public static CertificateDto certificateDtoForUpdateDuration() {
+        return CertificateDto.builder()
+                .duration(20)
+                .build();
+    }
+
+    public static CertificateDto certificateDtoUpdatedDuration() {
+        return new CertificateDto(1, "first", "first description",
+                BigDecimal.valueOf(10.23), 20, LocalDateTime.now(), LocalDateTime.now(),
                 Arrays.asList(TAG_DTO, TAG_DTO_5));
     }
 

@@ -85,11 +85,11 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     @Transactional
     public CertificateDto update(Integer id, CertificateDto certificateDto) {
-        checkId(id);
-        checkCertificateNameAndId(certificateDto, id);
-        checkTags(certificateDto);
-        Certificate certificate = certificateMapper.toEntity(certificateDto);
-        certificate.setId(id);
+        CertificateDto certificateDtoWithId = findById(id);
+        certificateMapper.updateDto(certificateDto, certificateDtoWithId);
+        checkCertificateNameAndId(certificateDtoWithId, id);
+        checkTags(certificateDtoWithId);
+        Certificate certificate = certificateMapper.toEntity(certificateDtoWithId);
         return certificateMapper.toDto(certificateRepository.save(certificate));
     }
 
@@ -103,11 +103,6 @@ public class CertificateServiceImpl implements CertificateService {
                 })
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Certificate with id %d not exist", id)));
-    }
-
-    private void checkId(Integer id) {
-        certificateRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Certificate with id %d not exist", id)));
     }
 
     private void checkCertificateName(CertificateDto certificateDto) {

@@ -23,6 +23,6 @@ CREATE TABLE IF NOT EXISTS tag
 CREATE TABLE IF NOT EXISTS certificate_tag
 (
     certificate_id INT REFERENCES gift_certificate (id),
-    tag_id         INT REFERENCES tag (id) ON DELETE CASCADE,
+    tag_id         INT REFERENCES tag (id),
     PRIMARY KEY (certificate_id, tag_id)
 );

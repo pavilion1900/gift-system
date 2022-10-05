@@ -58,7 +58,7 @@ public class CertificateRESTController {
     @PutMapping("/{id}")
     public ResponseEntity<CertificateDto> update(
             @Positive @PathVariable Integer id,
-            @Valid @RequestBody CertificateDto certificateDto) {
+            @RequestBody CertificateDto certificateDto) {
         return ResponseEntity.ok(service.update(id, certificateDto));
     }
 

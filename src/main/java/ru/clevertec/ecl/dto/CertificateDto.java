@@ -31,7 +31,7 @@ public class CertificateDto {
     private BigDecimal price;
 
     @Positive
-    private int duration;
+    private Integer duration;
     private LocalDateTime createDate;
     private LocalDateTime lastUpdateDate;
     private List<TagDto> tags;

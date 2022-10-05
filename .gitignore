@@ -6,4 +6,5 @@ build/
 *.db
 *.log
 *.pdf
+*.gz
 check.txt

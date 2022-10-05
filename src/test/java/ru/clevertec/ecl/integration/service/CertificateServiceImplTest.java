@@ -14,8 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForSaveWithId;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForSaveWithoutId;
-import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForUpdateWithId;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForUpdateDuration;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForUpdateWithoutId;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoUpdatedDuration;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoWithId1;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoWithoutId;
 import static ru.clevertec.ecl.util.CertificateUtil.dtoCertificates;
@@ -86,8 +87,8 @@ public class CertificateServiceImplTest extends IntegrationTestBase {
 
     @Test
     void checkUpdateIfCertificateHasUniqueIdAndUniqueName() {
-        CertificateDto actual = service.update(1, certificateDtoForUpdateWithoutId());
-        assertEquals(certificateDtoForUpdateWithId(), actual);
+        CertificateDto actual = service.update(1, certificateDtoForUpdateDuration());
+        assertEquals(certificateDtoUpdatedDuration(), actual);
     }
 
     @Test

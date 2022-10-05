@@ -22,13 +22,17 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForUpdateDuration;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForUpdateWithoutId;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoUpdatedDuration;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoWithId1;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoWithoutId;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateForUpdateWithId;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateUpdatedDuration;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId1;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateWithoutId;
 import static ru.clevertec.ecl.util.CertificateUtil.pageWithSizeOne;
@@ -191,22 +195,24 @@ class CertificateServiceImplTest {
     void checkUpdateIfCertificateHasUniqueIdAndUniqueName() {
         doReturn(Optional.of(certificateWithId1()))
                 .when(certificateRepository).findById(1);
+        doNothing()
+                .when(certificateMapper)
+                .updateDto(certificateDtoForUpdateDuration(), certificateDtoWithId1());
         doReturn(tagDtoWithId1())
                 .when(tagService).saveOrUpdate(tagDtoWithoutId());
         doReturn(tagDtoWithId20())
                 .when(tagService).saveOrUpdate(tagDtoWithoutId20());
-        doReturn(certificateWithoutId())
-                .when(certificateMapper).toEntity(certificateDtoWithoutId());
-        doReturn(certificateWithId1())
-                .when(certificateRepository).save(certificateWithId1());
-        doReturn(certificateDtoWithId1())
-                .when(certificateMapper).toDto(certificateWithId1());
-        CertificateDto actual = service.update(1, certificateDtoWithoutId());
-        CertificateDto expected = certificateDtoWithId1();
+        doReturn(certificateUpdatedDuration())
+                .when(certificateMapper).toEntity(certificateDtoUpdatedDuration());
+        doReturn(certificateUpdatedDuration())
+                .when(certificateRepository).save(certificateUpdatedDuration());
+        doReturn(certificateDtoUpdatedDuration())
+                .when(certificateMapper).toDto(certificateUpdatedDuration());
+        CertificateDto actual = service.update(1, certificateDtoForUpdateDuration());
+        CertificateDto expected = certificateDtoUpdatedDuration();
         assertEquals(expected, actual);
-        verify(certificateMapper).toEntity(certificateDtoWithoutId());
-        verify(certificateRepository).save(certificateWithId1());
-        verify(certificateMapper).toDto(certificateWithId1());
+        verify(certificateMapper).toEntity(certificateDtoUpdatedDuration());
+        verify(certificateRepository).save(certificateUpdatedDuration());
     }
 
     @Test
