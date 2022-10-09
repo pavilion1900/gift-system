@@ -66,13 +66,16 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public TagDto update(Integer id, TagDto tagDto) {
-        repository.findById(id)
+        return repository.findById(id)
+                .map(tag -> {
+                    checkTagNameAndId(tagDto, id);
+                    tag.setName(tagDto.getName());
+                    return tag;
+                })
+                .map(repository::save)
+                .map(tagMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Tag with id %d not exist", id)));
-        checkTagNameAndId(tagDto, id);
-        Tag tag = tagMapper.toEntity(tagDto);
-        tag.setId(id);
-        return tagMapper.toDto(repository.save(tag));
     }
 
     @Override

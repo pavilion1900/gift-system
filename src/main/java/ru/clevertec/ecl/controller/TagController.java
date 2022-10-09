@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/tags")
 @RequiredArgsConstructor
-public class TagRESTController {
+public class TagController {
 
     private final TagService service;
 
@@ -31,7 +31,7 @@ public class TagRESTController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TagDto> findById(@Positive @PathVariable int id) {
+    public ResponseEntity<TagDto> findById(@Positive @PathVariable Integer id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
@@ -52,8 +52,8 @@ public class TagRESTController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@Positive @PathVariable int id) {
+    public ResponseEntity<Void> delete(@Positive @PathVariable Integer id) {
         service.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

@@ -37,7 +37,6 @@ import static ru.clevertec.ecl.util.TagUtil.tagDtoWithId5;
 import static ru.clevertec.ecl.util.TagUtil.tagDtoWithId6;
 import static ru.clevertec.ecl.util.TagUtil.tagDtoWithoutId;
 import static ru.clevertec.ecl.util.TagUtil.tagForUpdateWithId;
-import static ru.clevertec.ecl.util.TagUtil.tagForUpdateWithoutId;
 import static ru.clevertec.ecl.util.TagUtil.tagWithId1;
 import static ru.clevertec.ecl.util.TagUtil.tagWithId2;
 import static ru.clevertec.ecl.util.TagUtil.tagWithId3;
@@ -149,8 +148,6 @@ class TagServiceImplTest {
     void checkUpdateIfTagHasUniqueIdAndUniqueName() {
         doReturn(Optional.of(tagWithId1()))
                 .when(repository).findById(1);
-        doReturn(tagForUpdateWithoutId())
-                .when(tagMapper).toEntity(tagDtoForUpdateWithoutId());
         doReturn(tagForUpdateWithId())
                 .when(repository).save(tagForUpdateWithId());
         doReturn(tagDtoForUpdateWithId())
@@ -158,7 +155,7 @@ class TagServiceImplTest {
         TagDto actual = service.update(1, tagDtoForUpdateWithoutId());
         TagDto expected = tagDtoForUpdateWithId();
         assertEquals(expected, actual);
-        verify(tagMapper).toEntity(tagDtoForUpdateWithoutId());
+        verify(repository).findById(1);
         verify(repository).save(tagForUpdateWithId());
         verify(tagMapper).toDto(tagForUpdateWithId());
     }

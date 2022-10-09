@@ -28,4 +28,6 @@ public interface CertificateRepository extends JpaRepository<Certificate, Intege
 
     @EntityGraph(attributePaths = {"tags"})
     Optional<Certificate> findByNameIgnoreCase(String certificateName);
+
+    boolean existsByNameIgnoreCase(String certificateName);
 }

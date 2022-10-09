@@ -35,13 +35,13 @@ public class CertificateServiceImplTest extends IntegrationTestBase {
 
     @Test
     void checkFindAllByPartOfName() {
-        List<CertificateDto> actual = service.findAllBy("fir", null, pageable());
+        List<CertificateDto> actual = service.findAllByIgnoreCase("fir", null, pageable());
         assertEquals(Collections.singletonList(certificateDtoWithId1()), actual);
     }
 
     @Test
     void checkFindAllByPartOfDescription() {
-        List<CertificateDto> actual = service.findAllBy(null, "desc", pageable());
+        List<CertificateDto> actual = service.findAllByIgnoreCase(null, "desc", pageable());
         assertEquals(dtoCertificates(), actual);
     }
 

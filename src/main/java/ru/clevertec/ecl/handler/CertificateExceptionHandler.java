@@ -10,7 +10,7 @@ import ru.clevertec.ecl.exception.EntityNotFoundException;
 @RestControllerAdvice
 public class CertificateExceptionHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleException(EntityNotFoundException exception) {
         return ResponseEntity.status(exception.getStatus())
                 .body(ErrorMessage.builder()
@@ -19,7 +19,7 @@ public class CertificateExceptionHandler {
                         .build());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> handleException(Exception exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorMessage.builder()

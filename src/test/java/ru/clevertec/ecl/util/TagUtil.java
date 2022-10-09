@@ -11,99 +11,164 @@ import java.util.List;
 public class TagUtil {
 
     public static Tag tagWithId1() {
-        return new Tag(1, "new");
+        return Tag.builder()
+                .id(1)
+                .name("new")
+                .build();
     }
 
     public static Tag tagWithoutId() {
-        return new Tag(null, "new");
+        return Tag.builder()
+                .name("new")
+                .build();
     }
 
     public static Tag tagWithId2() {
-        return new Tag(2, "old");
+        return Tag.builder()
+                .id(2)
+                .name("old")
+                .build();
     }
 
     public static Tag tagWithId3() {
-        return new Tag(3, "expensive");
+        return Tag.builder()
+                .id(3)
+                .name("expensive")
+                .build();
     }
 
     public static Tag tagWithId4() {
-        return new Tag(4, "cheap");
+        return Tag.builder()
+                .id(4)
+                .name("cheap")
+                .build();
     }
 
     public static Tag tagWithId5() {
-        return new Tag(5, "short");
+        return Tag.builder()
+                .id(5)
+                .name("short")
+                .build();
     }
 
     public static Tag tagWithId6() {
-        return new Tag(6, "long");
+        return Tag.builder()
+                .id(6)
+                .name("long")
+                .build();
     }
 
     public static Tag tagForSaveWithId() {
-        return new Tag(7, "hot");
+        return Tag.builder()
+                .id(7)
+                .name("hot")
+                .build();
     }
 
     public static Tag tagForSaveWithoutId() {
-        return new Tag(null, "hot");
+        return Tag.builder()
+                .name("hot")
+                .build();
     }
 
     public static Tag tagForUpdateWithId() {
-        return new Tag(1, "hot");
+        return Tag.builder()
+                .id(1)
+                .name("hot")
+                .build();
     }
 
     public static Tag tagForUpdateWithoutId() {
-        return new Tag(null, "hot");
+        return Tag.builder()
+                .name("hot")
+                .build();
     }
 
     public static TagDto tagDtoWithId1() {
-        return new TagDto(1, "new");
+        return TagDto.builder()
+                .id(1)
+                .name("new")
+                .build();
     }
 
     public static TagDto tagDtoWithoutId() {
-        return new TagDto(null, "new");
+        return TagDto.builder()
+                .name("new")
+                .build();
     }
 
     public static TagDto tagDtoWithId2() {
-        return new TagDto(2, "old");
+        return TagDto.builder()
+                .id(2)
+                .name("old")
+                .build();
     }
 
     public static TagDto tagDtoWithId3() {
-        return new TagDto(3, "expensive");
+        return TagDto.builder()
+                .id(3)
+                .name("expensive")
+                .build();
     }
 
     public static TagDto tagDtoWithId4() {
-        return new TagDto(4, "cheap");
+        return TagDto.builder()
+                .id(4)
+                .name("cheap")
+                .build();
     }
 
     public static TagDto tagDtoWithId5() {
-        return new TagDto(5, "short");
+        return TagDto.builder()
+                .id(5)
+                .name("short")
+                .build();
     }
 
     public static TagDto tagDtoWithId6() {
-        return new TagDto(6, "long");
+        return TagDto.builder()
+                .id(6)
+                .name("long")
+                .build();
     }
 
     public static TagDto tagDtoWithId20() {
-        return new TagDto(2, "short");
+        return TagDto.builder()
+                .id(2)
+                .name("short")
+                .build();
     }
 
     public static TagDto tagDtoWithoutId20() {
-        return new TagDto(null, "short");
+        return TagDto.builder()
+                .name("short")
+                .build();
     }
 
     public static TagDto tagDtoForSaveWithId() {
-        return new TagDto(7, "hot");
+        return TagDto.builder()
+                .id(7)
+                .name("hot")
+                .build();
     }
 
     public static TagDto tagDtoForSaveWithoutId() {
-        return new TagDto(null, "hot");
+        return TagDto.builder()
+                .name("hot")
+                .build();
     }
 
     public static TagDto tagDtoForUpdateWithId() {
-        return new TagDto(1, "hot");
+        return TagDto.builder()
+                .id(1)
+                .name("hot")
+                .build();
     }
 
     public static TagDto tagDtoForUpdateWithoutId() {
-        return new TagDto(null, "hot");
+        return TagDto.builder()
+                .name("hot")
+                .build();
     }
 
     public static List<Tag> tags() {

@@ -15,127 +15,287 @@ import java.util.List;
 
 public class CertificateUtil {
 
-    private static final Tag TAG = new Tag(1, "new");
-    private static final Tag TAG_WITHOUT_ID = new Tag(null, "new");
-    private static final Tag TAG_3 = new Tag(3, "expensive");
-    private static final Tag TAG_4 = new Tag(4, "cheap");
-    private static final Tag TAG_5 = new Tag(5, "short");
-    private static final Tag TAG_5_WITHOUT_ID = new Tag(null, "short");
-    private static final Tag TAG_6 = new Tag(6, "long");
-    private static final TagDto TAG_DTO = new TagDto(1, "new");
-    private static final TagDto TAG_DTO_WITHOUT_ID = new TagDto(null, "new");
-    private static final TagDto TAG_DTO_3 = new TagDto(3, "expensive");
-    private static final TagDto TAG_DTO_4 = new TagDto(4, "cheap");
-    private static final TagDto TAG_DTO_5 = new TagDto(5, "short");
-    private static final TagDto TAG_DTO_5_WITHOUT_ID = new TagDto(null, "short");
-    private static final TagDto TAG_DTO_6 = new TagDto(6, "long");
+    private static final Tag TAG = Tag.builder()
+            .id(1)
+            .name("new")
+            .build();
+    private static final Tag TAG_WITHOUT_ID = Tag.builder()
+            .name("new")
+            .build();
+    private static final Tag TAG_3 = Tag.builder()
+            .id(3)
+            .name("expensive")
+            .build();
+    private static final Tag TAG_4 = Tag.builder()
+            .id(4)
+            .name("cheap")
+            .build();
+    private static final Tag TAG_5 = Tag.builder()
+            .id(5)
+            .name("short")
+            .build();
+    private static final Tag TAG_5_WITHOUT_ID = Tag.builder()
+            .name("short")
+            .build();
+    private static final Tag TAG_6 = Tag.builder()
+            .id(6)
+            .name("long")
+            .build();
+    private static final TagDto TAG_DTO = TagDto.builder()
+            .id(1)
+            .name("new")
+            .build();
+    private static final TagDto TAG_DTO_WITHOUT_ID = TagDto.builder()
+            .name("new")
+            .build();
+    private static final TagDto TAG_DTO_3 = TagDto.builder()
+            .id(3)
+            .name("expensive")
+            .build();
+    private static final TagDto TAG_DTO_4 = TagDto.builder()
+            .id(4)
+            .name("cheap")
+            .build();
+    private static final TagDto TAG_DTO_5 = TagDto.builder()
+            .id(5)
+            .name("short")
+            .build();
+    private static final TagDto TAG_DTO_5_WITHOUT_ID = TagDto.builder()
+            .name("short")
+            .build();
+    private static final TagDto TAG_DTO_6 = TagDto.builder()
+            .id(6)
+            .name("long")
+            .build();
 
     public static Certificate certificateWithId1() {
-        return new Certificate(1, "first", "first description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG, TAG_5));
+        return Certificate.builder()
+                .id(1)
+                .name("first")
+                .description("first description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_5))
+                .build();
     }
 
     public static Certificate certificateWithoutId() {
-        return new Certificate(null, "first", "first description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_WITHOUT_ID, TAG_5_WITHOUT_ID));
+        return Certificate.builder()
+                .name("first")
+                .description("first description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_WITHOUT_ID, TAG_5_WITHOUT_ID))
+                .build();
     }
 
     public static Certificate certificateWithId2() {
-        return new Certificate(2, "second", "second description",
-                BigDecimal.valueOf(15.85), 20, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG, TAG_6));
+        return Certificate.builder()
+                .id(2)
+                .name("second")
+                .description("second description")
+                .price(BigDecimal.valueOf(15.85))
+                .duration(20)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_6))
+                .build();
     }
 
     public static Certificate certificateWithId3() {
-        return new Certificate(3, "third", "third description",
-                BigDecimal.valueOf(20.83), 8, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG, TAG_3, TAG_5));
+        return Certificate.builder()
+                .id(3)
+                .name("third")
+                .description("third description")
+                .price(BigDecimal.valueOf(20.83))
+                .duration(8)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_3, TAG_5))
+                .build();
     }
 
     public static Certificate certificateWithId4() {
-        return new Certificate(4, "fourth", "fourth description",
-                BigDecimal.valueOf(25.58), 15, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG, TAG_3));
+        return Certificate.builder()
+                .id(4)
+                .name("fourth")
+                .description("fourth description")
+                .price(BigDecimal.valueOf(25.58))
+                .duration(15)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_3))
+                .build();
     }
 
     public static Certificate certificateWithId5() {
-        return new Certificate(5, "fifth", "fifth description",
-                BigDecimal.valueOf(5.27), 30, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG, TAG_4, TAG_6));
+        return Certificate.builder()
+                .id(5)
+                .name("fifth")
+                .description("fifth description")
+                .price(BigDecimal.valueOf(5.27))
+                .duration(30)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_4, TAG_6))
+                .build();
     }
 
     public static Certificate certificateForUpdateWithId() {
-        return new Certificate(1, "sixth", "first description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG, TAG_5));
+        return Certificate.builder()
+                .id(1)
+                .name("sixth")
+                .description("first description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_5))
+                .build();
     }
 
     public static Certificate certificateUpdatedDuration() {
-        return new Certificate(1, "first", "first description",
-                BigDecimal.valueOf(10.23), 20, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG, TAG_5));
+        return Certificate.builder()
+                .id(1)
+                .name("first")
+                .description("first description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(20)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_5))
+                .build();
     }
 
     public static Certificate certificateForSaveWithId() {
-        return new Certificate(6, "sixth", "sixth description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG, TAG_5));
+        return Certificate.builder()
+                .id(6)
+                .name("sixth")
+                .description("sixth description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_5))
+                .build();
     }
 
     public static Certificate certificateForSaveWithoutId() {
-        return new Certificate(null, "sixth", "sixth description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG, TAG_5));
+        return Certificate.builder()
+                .name("sixth")
+                .description("sixth description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_5))
+                .build();
     }
 
     public static CertificateDto certificateDtoWithId1() {
-        return new CertificateDto(1, "first", "first description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_DTO, TAG_DTO_5));
+        return CertificateDto.builder()
+                .id(1)
+                .name("first")
+                .description("first description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .build();
     }
 
     public static CertificateDto certificateDtoWithoutId() {
-        return new CertificateDto(null, "first", "first description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_DTO_WITHOUT_ID, TAG_DTO_5_WITHOUT_ID));
+        return CertificateDto.builder()
+                .name("first")
+                .description("first description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_DTO_WITHOUT_ID, TAG_DTO_5_WITHOUT_ID))
+                .build();
     }
 
     public static CertificateDto certificateDtoWithId2() {
-        return new CertificateDto(2, "second", "second description",
-                BigDecimal.valueOf(15.85), 20, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_DTO, TAG_DTO_6));
+        return CertificateDto.builder()
+                .id(2)
+                .name("second")
+                .description("second description")
+                .price(BigDecimal.valueOf(15.85))
+                .duration(20)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_DTO, TAG_DTO_6))
+                .build();
     }
 
     public static CertificateDto certificateDtoWithId3() {
-        return new CertificateDto(3, "third", "third description",
-                BigDecimal.valueOf(20.83), 8, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_DTO, TAG_DTO_3, TAG_DTO_5));
+        return CertificateDto.builder()
+                .id(3)
+                .name("third")
+                .description("third description")
+                .price(BigDecimal.valueOf(20.83))
+                .duration(8)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_DTO, TAG_DTO_3, TAG_DTO_5))
+                .build();
     }
 
     public static CertificateDto certificateDtoWithId4() {
-        return new CertificateDto(4, "fourth", "fourth description",
-                BigDecimal.valueOf(25.58), 15, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_DTO, TAG_DTO_3));
+        return CertificateDto.builder()
+                .id(4)
+                .name("fourth")
+                .description("fourth description")
+                .price(BigDecimal.valueOf(25.58))
+                .duration(15)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_DTO, TAG_DTO_3))
+                .build();
     }
 
     public static CertificateDto certificateDtoWithId5() {
-        return new CertificateDto(5, "fifth", "fifth description",
-                BigDecimal.valueOf(5.27), 30, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_DTO, TAG_DTO_4, TAG_DTO_6));
+        return CertificateDto.builder()
+                .id(5)
+                .name("fifth")
+                .description("fifth description")
+                .price(BigDecimal.valueOf(5.27))
+                .duration(30)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_DTO, TAG_DTO_4, TAG_DTO_6))
+                .build();
     }
 
     public static CertificateDto certificateDtoForSaveWithId() {
-        return new CertificateDto(6, "sixth", "sixth description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_DTO, TAG_DTO_5));
+        return CertificateDto.builder()
+                .id(6)
+                .name("sixth")
+                .description("sixth description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .build();
     }
 
     public static CertificateDto certificateDtoForSaveWithoutId() {
-        return new CertificateDto(null, "sixth", "sixth description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_DTO, TAG_DTO_5));
+        return CertificateDto.builder()
+                .name("sixth")
+                .description("sixth description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .build();
     }
 
     public static CertificateDto certificateDtoForUpdateDuration() {
@@ -145,15 +305,28 @@ public class CertificateUtil {
     }
 
     public static CertificateDto certificateDtoUpdatedDuration() {
-        return new CertificateDto(1, "first", "first description",
-                BigDecimal.valueOf(10.23), 20, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_DTO, TAG_DTO_5));
+        return CertificateDto.builder()
+                .id(1)
+                .name("first")
+                .description("first description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(20)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .build();
     }
 
     public static CertificateDto certificateDtoForUpdateWithoutId() {
-        return new CertificateDto(null, "sixth", "sixth description",
-                BigDecimal.valueOf(10.23), 10, LocalDateTime.now(), LocalDateTime.now(),
-                Arrays.asList(TAG_DTO, TAG_DTO_5));
+        return CertificateDto.builder()
+                .name("sixth")
+                .description("sixth description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .build();
     }
 
     public static List<Certificate> certificates() {

@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.clevertec.ecl.dto.CertificateDto;
 import ru.clevertec.ecl.service.CertificateService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/certificates")
 @RequiredArgsConstructor
-public class CertificateRESTController {
+public class CertificateController {
 
     private final CertificateService service;
 
@@ -33,10 +33,10 @@ public class CertificateRESTController {
 
     @GetMapping("/param")
     public ResponseEntity<List<CertificateDto>> findAllBy(
-            HttpServletRequest request, Pageable pageable) {
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        return ResponseEntity.ok(service.findAllBy(name, description, pageable));
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
+            Pageable pageable) {
+        return ResponseEntity.ok(service.findAllByIgnoreCase(name, description, pageable));
     }
 
     @GetMapping("/tag/{tagName}")
@@ -46,7 +46,7 @@ public class CertificateRESTController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CertificateDto> findById(@Positive @PathVariable int id) {
+    public ResponseEntity<CertificateDto> findById(@Positive @PathVariable Integer id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
@@ -63,8 +63,8 @@ public class CertificateRESTController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@Positive @PathVariable int id) {
+    public ResponseEntity<Void> delete(@Positive @PathVariable Integer id) {
         service.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

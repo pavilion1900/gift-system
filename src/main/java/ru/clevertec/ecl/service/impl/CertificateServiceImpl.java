@@ -37,7 +37,8 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public List<CertificateDto> findAllBy(String name, String description, Pageable pageable) {
+    public List<CertificateDto> findAllByIgnoreCase(String name, String description,
+                                                    Pageable pageable) {
         return certificateRepository.findAll(
                         Example.of(Certificate.builder()
                                         .name(name)
@@ -106,12 +107,11 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     private void checkCertificateName(CertificateDto certificateDto) {
-        certificateRepository.findByNameIgnoreCase(certificateDto.getName())
-                .ifPresent(certificate -> {
-                    throw new EntityNotFoundException(
-                            String.format("Certificate with name %s already exist",
-                                    certificateDto.getName()));
-                });
+        if (certificateRepository.existsByNameIgnoreCase(certificateDto.getName())) {
+            throw new EntityNotFoundException(
+                    String.format("Certificate with name %s already exist",
+                            certificateDto.getName()));
+        }
     }
 
     private void checkCertificateNameAndId(CertificateDto certificateDto, Integer id) {

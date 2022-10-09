@@ -39,6 +39,7 @@ import static ru.clevertec.ecl.util.CertificateUtil.pageWithSizeOne;
 import static ru.clevertec.ecl.util.CertificateUtil.pageable;
 import static ru.clevertec.ecl.util.TagUtil.tagDtoWithId1;
 import static ru.clevertec.ecl.util.TagUtil.tagDtoWithId20;
+import static ru.clevertec.ecl.util.TagUtil.tagDtoWithId5;
 import static ru.clevertec.ecl.util.TagUtil.tagDtoWithoutId;
 import static ru.clevertec.ecl.util.TagUtil.tagDtoWithoutId20;
 
@@ -76,7 +77,7 @@ class CertificateServiceImplTest {
                 .when(certificateRepository).findAll(any(Example.class), any(PageRequest.class));
         doReturn(certificateDtoWithId1())
                 .when(certificateMapper).toDto(certificateWithId1());
-        List<CertificateDto> actual = service.findAllBy("fir", null, pageable());
+        List<CertificateDto> actual = service.findAllByIgnoreCase("fir", null, pageable());
         List<CertificateDto> expected = singletonList(certificateDtoWithId1());
         assertEquals(expected, actual);
         verify(certificateRepository).findAll(any(Example.class), any(PageRequest.class));
@@ -89,7 +90,7 @@ class CertificateServiceImplTest {
                 .when(certificateRepository).findAll(any(Example.class), any(PageRequest.class));
         doReturn(certificateDtoWithId1())
                 .when(certificateMapper).toDto(certificateWithId1());
-        List<CertificateDto> actual = service.findAllBy(null, "fir", pageable());
+        List<CertificateDto> actual = service.findAllByIgnoreCase(null, "fir", pageable());
         List<CertificateDto> expected = singletonList(certificateDtoWithId1());
         assertEquals(expected, actual);
         verify(certificateRepository).findAll(any(Example.class), any(PageRequest.class));
@@ -184,9 +185,9 @@ class CertificateServiceImplTest {
 
     @Test
     void throwExceptionBySaveIfCertificateHasNotUniqueName() {
-        doReturn(Optional.of(certificateWithId1()))
+        doReturn(true)
                 .when(certificateRepository)
-                .findByNameIgnoreCase(certificateDtoWithoutId().getName());
+                .existsByNameIgnoreCase(certificateDtoWithoutId().getName());
         assertThrows(EntityNotFoundException.class,
                 () -> service.save(certificateDtoWithoutId()));
     }
@@ -199,9 +200,9 @@ class CertificateServiceImplTest {
                 .when(certificateMapper)
                 .updateDto(certificateDtoForUpdateDuration(), certificateDtoWithId1());
         doReturn(tagDtoWithId1())
-                .when(tagService).saveOrUpdate(tagDtoWithoutId());
-        doReturn(tagDtoWithId20())
-                .when(tagService).saveOrUpdate(tagDtoWithoutId20());
+                .when(tagService).saveOrUpdate(tagDtoWithId1());
+        doReturn(tagDtoWithId5())
+                .when(tagService).saveOrUpdate(tagDtoWithId5());
         doReturn(certificateUpdatedDuration())
                 .when(certificateMapper).toEntity(certificateDtoUpdatedDuration());
         doReturn(certificateUpdatedDuration())
