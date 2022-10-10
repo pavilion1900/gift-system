@@ -122,6 +122,19 @@ class TagServiceImplTest {
     }
 
     @Test
+    void checkFindMostWidelyUsedTag() {
+        doReturn(Optional.of(tagWithId1()))
+                .when(repository).findMostWidelyUsedTag();
+        doReturn(tagDtoWithId1())
+                .when(tagMapper).toDto(tagWithId1());
+        TagDto actual = service.findMostWidelyUsedTag();
+        TagDto expected = tagDtoWithId1();
+        assertEquals(expected, actual);
+        verify(repository).findMostWidelyUsedTag();
+        verify(tagMapper).toDto(tagWithId1());
+    }
+
+    @Test
     void checkSaveIfTagHasUniqueName() {
         doReturn(tagWithoutId())
                 .when(tagMapper).toEntity(tagDtoWithoutId());

@@ -4,6 +4,8 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.dto.CertificateDto;
+import ru.clevertec.ecl.dto.CertificateDurationDto;
+import ru.clevertec.ecl.dto.CertificatePriceDto;
 import ru.clevertec.ecl.dto.TagDto;
 import ru.clevertec.ecl.entity.Certificate;
 import ru.clevertec.ecl.entity.Tag;
@@ -158,6 +160,32 @@ public class CertificateUtil {
                 .build();
     }
 
+    public static Certificate certificateUpdated() {
+        return Certificate.builder()
+                .id(1)
+                .name("first")
+                .description("first description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(20)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_5))
+                .build();
+    }
+
+    public static Certificate certificateUpdatedPrice() {
+        return Certificate.builder()
+                .id(1)
+                .name("first")
+                .description("first description")
+                .price(BigDecimal.valueOf(50.50))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .tags(Arrays.asList(TAG, TAG_5))
+                .build();
+    }
+
     public static Certificate certificateUpdatedDuration() {
         return Certificate.builder()
                 .id(1)
@@ -205,7 +233,7 @@ public class CertificateUtil {
                 .duration(10)
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
-                .tags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_5))
                 .build();
     }
 
@@ -217,7 +245,7 @@ public class CertificateUtil {
                 .duration(10)
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
-                .tags(Arrays.asList(TAG_DTO_WITHOUT_ID, TAG_DTO_5_WITHOUT_ID))
+                .dtoTags(Arrays.asList(TAG_DTO_WITHOUT_ID, TAG_DTO_5_WITHOUT_ID))
                 .build();
     }
 
@@ -230,7 +258,7 @@ public class CertificateUtil {
                 .duration(20)
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
-                .tags(Arrays.asList(TAG_DTO, TAG_DTO_6))
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_6))
                 .build();
     }
 
@@ -243,7 +271,7 @@ public class CertificateUtil {
                 .duration(8)
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
-                .tags(Arrays.asList(TAG_DTO, TAG_DTO_3, TAG_DTO_5))
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_3, TAG_DTO_5))
                 .build();
     }
 
@@ -256,7 +284,7 @@ public class CertificateUtil {
                 .duration(15)
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
-                .tags(Arrays.asList(TAG_DTO, TAG_DTO_3))
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_3))
                 .build();
     }
 
@@ -269,7 +297,7 @@ public class CertificateUtil {
                 .duration(30)
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
-                .tags(Arrays.asList(TAG_DTO, TAG_DTO_4, TAG_DTO_6))
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_4, TAG_DTO_6))
                 .build();
     }
 
@@ -282,7 +310,7 @@ public class CertificateUtil {
                 .duration(10)
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
-                .tags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_5))
                 .build();
     }
 
@@ -294,13 +322,46 @@ public class CertificateUtil {
                 .duration(10)
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
-                .tags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_5))
                 .build();
     }
 
-    public static CertificateDto certificateDtoForUpdateDuration() {
+    public static CertificateDto certificateDtoForUpdate() {
         return CertificateDto.builder()
+                .id(1)
+                .name("first")
+                .description("20 description")
+                .price(BigDecimal.valueOf(10.23))
                 .duration(20)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .build();
+    }
+
+    public static CertificateDto certificateDtoUpdated() {
+        return CertificateDto.builder()
+                .id(1)
+                .name("first")
+                .description("20 description")
+                .price(BigDecimal.valueOf(10.23))
+                .duration(20)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .build();
+    }
+
+    public static CertificateDto certificateDtoUpdatedPrice() {
+        return CertificateDto.builder()
+                .id(1)
+                .name("first")
+                .description("first description")
+                .price(BigDecimal.valueOf(50.50))
+                .duration(10)
+                .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_5))
                 .build();
     }
 
@@ -313,7 +374,7 @@ public class CertificateUtil {
                 .duration(20)
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
-                .tags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_5))
                 .build();
     }
 
@@ -325,7 +386,19 @@ public class CertificateUtil {
                 .duration(10)
                 .createDate(LocalDateTime.now())
                 .lastUpdateDate(LocalDateTime.now())
-                .tags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .dtoTags(Arrays.asList(TAG_DTO, TAG_DTO_5))
+                .build();
+    }
+
+    public static CertificatePriceDto certificatePriceDto() {
+        return CertificatePriceDto.builder()
+                .price(BigDecimal.valueOf(50.50))
+                .build();
+    }
+
+    public static CertificateDurationDto certificateDurationDto() {
+        return CertificateDurationDto.builder()
+                .duration(20)
                 .build();
     }
 

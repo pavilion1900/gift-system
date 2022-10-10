@@ -21,19 +21,19 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class TagServiceImpl implements TagService {
 
-    private final TagRepository repository;
+    private final TagRepository tagRepository;
     private final TagMapper tagMapper;
 
     @Override
     public List<TagDto> findAll(Pageable pageable) {
-        return repository.findAll(pageable).stream()
+        return tagRepository.findAll(pageable).stream()
                 .map(tagMapper::toDto)
                 .collect(toList());
     }
 
     @Override
     public TagDto findById(Integer id) {
-        return repository.findById(id)
+        return tagRepository.findById(id)
                 .map(tagMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Tag with id %d not found", id)
@@ -42,7 +42,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public TagDto findByName(String tagName) {
-        return repository.findByNameIgnoreCase(tagName)
+        return tagRepository.findByNameIgnoreCase(tagName)
                 .map(tagMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Tag with name %s not found", tagName)
@@ -50,29 +50,36 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public TagDto findMostWidelyUsedTag() {
+        return tagRepository.findMostWidelyUsedTag()
+                .map(tagMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Tag not found"));
+    }
+
+    @Override
     @Transactional
     public TagDto save(TagDto tagDto) {
-        return (TagDto) repository.findByNameIgnoreCase(tagDto.getName())
+        return (TagDto) tagRepository.findByNameIgnoreCase(tagDto.getName())
                 .map(tag -> {
                     throw new EntityNotFoundException(
                             String.format("Tag with name %s already exist", tagDto.getName()));
                 })
                 .orElseGet(() -> {
                     Tag tag = tagMapper.toEntity(tagDto);
-                    return tagMapper.toDto(repository.save(tag));
+                    return tagMapper.toDto(tagRepository.save(tag));
                 });
     }
 
     @Override
     @Transactional
     public TagDto update(Integer id, TagDto tagDto) {
-        return repository.findById(id)
+        return tagRepository.findById(id)
                 .map(tag -> {
                     checkTagNameAndId(tagDto, id);
                     tag.setName(tagDto.getName());
                     return tag;
                 })
-                .map(repository::save)
+                .map(tagRepository::save)
                 .map(tagMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Tag with id %d not exist", id)));
@@ -81,9 +88,9 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public void delete(Integer id) {
-        repository.findById(id)
+        tagRepository.findById(id)
                 .map(tag -> {
-                    repository.deleteById(id);
+                    tagRepository.deleteById(id);
                     return tag;
                 })
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -92,7 +99,7 @@ public class TagServiceImpl implements TagService {
 
     private void checkTagNameAndId(TagDto tagDto, Integer id) {
         Optional<Tag> optionalTag =
-                repository.findByNameIgnoreCase(tagDto.getName());
+                tagRepository.findByNameIgnoreCase(tagDto.getName());
         if (optionalTag.isPresent() && !optionalTag.get().getId().equals(id)) {
             throw new EntityNotFoundException(
                     String.format("Tag with name %s already exist", tagDto.getName()));
@@ -100,12 +107,13 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public TagDto saveOrUpdate(TagDto tagDto) {
-        return repository.findByNameIgnoreCase(tagDto.getName())
+        return tagRepository.findByNameIgnoreCase(tagDto.getName())
                 .map(tagMapper::toDto)
                 .orElseGet(() -> {
                     Tag tag = tagMapper.toEntity(tagDto);
-                    return tagMapper.toDto(repository.save(tag));
+                    return tagMapper.toDto(tagRepository.save(tag));
                 });
     }
 }

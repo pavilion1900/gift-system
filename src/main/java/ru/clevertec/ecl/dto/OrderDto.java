@@ -6,41 +6,27 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(of = {"cost", "userId", "certificateId"})
 @Builder
-public class CertificateDto {
+public class OrderDto {
 
     private Integer id;
-
-    @NotBlank
-    @NotNull
-    private String name;
-
-    @NotBlank
-    @NotNull
-    private String description;
+    private BigDecimal cost;
+    private LocalDateTime purchaseDate;
 
     @Positive
     @NotNull
-    private BigDecimal price;
+    private Integer userId;
 
     @Positive
     @NotNull
-    private Integer duration;
-
-    private LocalDateTime createDate;
-    private LocalDateTime lastUpdateDate;
-
-    @NotNull
-    private List<TagDto> dtoTags;
+    private Integer certificateId;
 }

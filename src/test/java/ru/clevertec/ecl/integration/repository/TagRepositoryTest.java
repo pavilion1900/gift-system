@@ -42,6 +42,12 @@ public class TagRepositoryTest extends IntegrationTestBase {
     }
 
     @Test
+    void checkFindMostWidelyUsedTag() {
+        Optional<Tag> optional = repository.findMostWidelyUsedTag();
+        optional.ifPresent(tag -> assertEquals(tagWithId1(), tag));
+    }
+
+    @Test
     void checkSaveIfTagHasUniqueName() {
         Tag actual = repository.save(tagForSaveWithoutId());
         assertEquals(tagForSaveWithId(), actual);

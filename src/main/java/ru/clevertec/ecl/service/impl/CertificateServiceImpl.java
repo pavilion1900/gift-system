@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.dto.CertificateDto;
+import ru.clevertec.ecl.dto.CertificateDurationDto;
+import ru.clevertec.ecl.dto.CertificatePriceDto;
 import ru.clevertec.ecl.dto.TagDto;
 import ru.clevertec.ecl.entity.Certificate;
 import ru.clevertec.ecl.exception.EntityNotFoundException;
@@ -37,7 +39,8 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public List<CertificateDto> findAllByIgnoreCase(String name, String description,
+    public List<CertificateDto> findAllByIgnoreCase(String name,
+                                                    String description,
                                                     Pageable pageable) {
         return certificateRepository.findAll(
                         Example.of(Certificate.builder()
@@ -52,6 +55,13 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public List<CertificateDto> findAllByTagName(String tagName, Pageable pageable) {
         return certificateRepository.findAllByTagName(tagName, pageable).stream()
+                .map(certificateMapper::toDto)
+                .collect(toList());
+    }
+
+    @Override
+    public List<CertificateDto> findAllBySeveralTagNames(List<String> tagNames, Pageable pageable) {
+        return certificateRepository.findAllBySeveralTagNames(tagNames, pageable).stream()
                 .map(certificateMapper::toDto)
                 .collect(toList());
     }
@@ -86,12 +96,57 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     @Transactional
     public CertificateDto update(Integer id, CertificateDto certificateDto) {
-        CertificateDto certificateDtoWithId = findById(id);
-        certificateMapper.updateDto(certificateDto, certificateDtoWithId);
-        checkCertificateNameAndId(certificateDtoWithId, id);
-        checkTags(certificateDtoWithId);
-        Certificate certificate = certificateMapper.toEntity(certificateDtoWithId);
-        return certificateMapper.toDto(certificateRepository.save(certificate));
+        return certificateRepository.findById(id)
+                .map(certificateMapper::toDto)
+                .map(certificateDtoWithId -> {
+                    certificateMapper.updateDto(certificateDto, certificateDtoWithId);
+                    certificateDtoWithId.setId(id);
+                    checkCertificateNameAndId(certificateDtoWithId, id);
+                    checkTags(certificateDtoWithId);
+                    return certificateDtoWithId;
+                })
+                .map(certificateMapper::toEntity)
+                .map(certificateRepository::save)
+                .map(certificateMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Certificate with id %d not found", id)
+                ));
+    }
+
+    @Override
+    @Transactional
+    public CertificateDto updatePrice(Integer id, CertificatePriceDto certificatePriceDto) {
+        return certificateRepository.findById(id)
+                .map(certificateMapper::toDto)
+                .map(certificateDtoWithId -> {
+                    certificateMapper.updatePriceDto(certificatePriceDto, certificateDtoWithId);
+                    return certificateDtoWithId;
+                })
+                .map(certificateMapper::toEntity)
+                .map(certificateRepository::save)
+                .map(certificateMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Certificate with id %d not found", id)
+                ));
+    }
+
+    @Override
+    @Transactional
+    public CertificateDto updateDuration(Integer id,
+                                         CertificateDurationDto certificateDurationDto) {
+        return certificateRepository.findById(id)
+                .map(certificateMapper::toDto)
+                .map(certificateDtoWithId -> {
+                    certificateMapper.updateDurationDto(
+                            certificateDurationDto, certificateDtoWithId);
+                    return certificateDtoWithId;
+                })
+                .map(certificateMapper::toEntity)
+                .map(certificateRepository::save)
+                .map(certificateMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Certificate with id %d not found", id)
+                ));
     }
 
     @Override
@@ -125,12 +180,12 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     private void checkTags(CertificateDto certificateDto) {
-        List<TagDto> tags = certificateDto.getTags();
+        List<TagDto> tags = certificateDto.getDtoTags();
         tags.forEach(tagDto -> {
             Integer id = tagService.saveOrUpdate(tagDto).getId();
             tagDto.setId(id);
         });
-        certificateDto.setTags(tags);
+        certificateDto.setDtoTags(tags);
     }
 
     private ExampleMatcher matcher() {

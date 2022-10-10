@@ -9,11 +9,13 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import ru.clevertec.ecl.dto.CertificateDto;
+import ru.clevertec.ecl.entity.Certificate;
 import ru.clevertec.ecl.exception.EntityNotFoundException;
 import ru.clevertec.ecl.mapper.CertificateMapper;
 import ru.clevertec.ecl.repository.CertificateRepository;
 import ru.clevertec.ecl.service.impl.CertificateServiceImpl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,15 +27,26 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForUpdateDuration;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForUpdate;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoForUpdateWithoutId;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoUpdated;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoUpdatedDuration;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoUpdatedPrice;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoWithId1;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoWithId3;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoWithId5;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoWithoutId;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateDurationDto;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateForUpdateWithId;
+import static ru.clevertec.ecl.util.CertificateUtil.certificatePriceDto;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateUpdated;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateUpdatedDuration;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateUpdatedPrice;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId1;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId3;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId5;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateWithoutId;
 import static ru.clevertec.ecl.util.CertificateUtil.pageWithSizeOne;
 import static ru.clevertec.ecl.util.CertificateUtil.pageable;
@@ -98,7 +111,7 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void checkByTagName() {
+    void checkFindAllByTagName() {
         doReturn(singletonList(certificateWithId1()))
                 .when(certificateRepository).findAllByTagName("new", pageWithSizeOne());
         doReturn(certificateDtoWithId1())
@@ -108,6 +121,27 @@ class CertificateServiceImplTest {
         assertEquals(expected, actual);
         verify(certificateRepository).findAllByTagName("new", pageWithSizeOne());
         verify(certificateMapper).toDto(certificateWithId1());
+    }
+
+    @Test
+    void checkFindAllBySeveralTagNames() {
+        List<String> tagNames = Arrays.asList("cheap", "short");
+        List<Certificate> certificates =
+                Arrays.asList(certificateWithId1(), certificateWithId3(), certificateWithId5());
+        doReturn(certificates)
+                .when(certificateRepository).findAllBySeveralTagNames(tagNames, pageable());
+        doReturn(certificateDtoWithId1())
+                .when(certificateMapper).toDto(certificateWithId1());
+        doReturn(certificateDtoWithId3())
+                .when(certificateMapper).toDto(certificateWithId3());
+        doReturn(certificateDtoWithId5())
+                .when(certificateMapper).toDto(certificateWithId5());
+        List<CertificateDto> actual = service.findAllBySeveralTagNames(tagNames, pageable());
+        List<CertificateDto> expected = Arrays.asList(
+                certificateDtoWithId1(), certificateDtoWithId3(), certificateDtoWithId5());
+        assertEquals(expected, actual);
+        verify(certificateRepository).findAllBySeveralTagNames(tagNames, pageable());
+        verify(certificateMapper, times(3)).toDto(any(Certificate.class));
     }
 
     @Test
@@ -198,22 +232,22 @@ class CertificateServiceImplTest {
                 .when(certificateRepository).findById(1);
         doNothing()
                 .when(certificateMapper)
-                .updateDto(certificateDtoForUpdateDuration(), certificateDtoWithId1());
+                .updateDto(certificateDtoForUpdate(), certificateDtoWithId1());
         doReturn(tagDtoWithId1())
                 .when(tagService).saveOrUpdate(tagDtoWithId1());
         doReturn(tagDtoWithId5())
                 .when(tagService).saveOrUpdate(tagDtoWithId5());
-        doReturn(certificateUpdatedDuration())
-                .when(certificateMapper).toEntity(certificateDtoUpdatedDuration());
-        doReturn(certificateUpdatedDuration())
-                .when(certificateRepository).save(certificateUpdatedDuration());
-        doReturn(certificateDtoUpdatedDuration())
-                .when(certificateMapper).toDto(certificateUpdatedDuration());
-        CertificateDto actual = service.update(1, certificateDtoForUpdateDuration());
-        CertificateDto expected = certificateDtoUpdatedDuration();
+        doReturn(certificateUpdated())
+                .when(certificateMapper).toEntity(certificateDtoUpdated());
+        doReturn(certificateUpdated())
+                .when(certificateRepository).save(certificateUpdated());
+        doReturn(certificateDtoUpdated())
+                .when(certificateMapper).toDto(certificateUpdated());
+        CertificateDto actual = service.update(1, certificateDtoForUpdate());
+        CertificateDto expected = certificateDtoUpdated();
         assertEquals(expected, actual);
-        verify(certificateMapper).toEntity(certificateDtoUpdatedDuration());
-        verify(certificateRepository).save(certificateUpdatedDuration());
+        verify(certificateMapper).toEntity(certificateDtoUpdated());
+        verify(certificateRepository).save(certificateUpdated());
     }
 
     @Test
@@ -223,6 +257,64 @@ class CertificateServiceImplTest {
         assertThrows(EntityNotFoundException.class,
                 () -> service.update(1, certificateDtoForUpdateWithoutId()));
         verify(certificateRepository, never()).save(certificateForUpdateWithId());
+    }
+
+    @Test
+    void checkUpdatePriceIfCertificateHasUniqueId() {
+        doReturn(Optional.of(certificateWithId1()))
+                .when(certificateRepository).findById(1);
+        doNothing()
+                .when(certificateMapper)
+                .updatePriceDto(certificatePriceDto(), certificateDtoWithId1());
+        doReturn(certificateUpdatedPrice())
+                .when(certificateMapper).toEntity(certificateDtoUpdatedPrice());
+        doReturn(certificateUpdatedPrice())
+                .when(certificateRepository).save(certificateUpdatedPrice());
+        doReturn(certificateDtoUpdatedPrice())
+                .when(certificateMapper).toDto(certificateUpdatedPrice());
+        CertificateDto actual = service.updatePrice(1, certificatePriceDto());
+        CertificateDto expected = certificateDtoUpdatedPrice();
+        assertEquals(expected, actual);
+        verify(certificateMapper).toEntity(certificateDtoUpdatedPrice());
+        verify(certificateRepository).save(certificateUpdatedPrice());
+    }
+
+    @Test
+    void throwExceptionByUpdatePriceIfCertificateIdNotExist() {
+        doReturn(Optional.empty())
+                .when(certificateRepository).findById(1);
+        assertThrows(EntityNotFoundException.class,
+                () -> service.updatePrice(1, certificatePriceDto()));
+        verify(certificateRepository, never()).save(certificateUpdatedPrice());
+    }
+
+    @Test
+    void checkUpdateDurationIfCertificateHasUniqueId() {
+        doReturn(Optional.of(certificateWithId1()))
+                .when(certificateRepository).findById(1);
+        doNothing()
+                .when(certificateMapper)
+                .updateDurationDto(certificateDurationDto(), certificateDtoWithId1());
+        doReturn(certificateUpdatedDuration())
+                .when(certificateMapper).toEntity(certificateDtoUpdatedDuration());
+        doReturn(certificateUpdatedDuration())
+                .when(certificateRepository).save(certificateUpdatedDuration());
+        doReturn(certificateDtoUpdatedDuration())
+                .when(certificateMapper).toDto(certificateUpdatedDuration());
+        CertificateDto actual = service.updateDuration(1, certificateDurationDto());
+        CertificateDto expected = certificateDtoUpdatedDuration();
+        assertEquals(expected, actual);
+        verify(certificateMapper).toEntity(certificateDtoUpdatedDuration());
+        verify(certificateRepository).save(certificateUpdatedDuration());
+    }
+
+    @Test
+    void throwExceptionByUpdateDurationIfCertificateIdNotExist() {
+        doReturn(Optional.empty())
+                .when(certificateRepository).findById(1);
+        assertThrows(EntityNotFoundException.class,
+                () -> service.updateDuration(1, certificateDurationDto()));
+        verify(certificateRepository, never()).save(certificateUpdatedDuration());
     }
 
     @Test

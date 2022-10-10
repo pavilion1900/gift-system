@@ -4,12 +4,12 @@
 CREATE TABLE IF NOT EXISTS gift_certificate
 (
     id               SERIAL PRIMARY KEY,
-    name             VARCHAR UNIQUE                              NOT NULL,
-    description      VARCHAR                                     NOT NULL,
-    price            NUMERIC(10, 2) CHECK ( price > 0 )          NOT NULL,
-    duration         INT CHECK ( gift_certificate.duration > 0 ) NOT NULL,
-    create_date      TIMESTAMP                                   NOT NULL,
-    last_update_date TIMESTAMP                                   NOT NULL
+    name             VARCHAR UNIQUE                     NOT NULL,
+    description      VARCHAR                            NOT NULL,
+    price            NUMERIC(10, 2) CHECK ( price > 0 ) NOT NULL,
+    duration         INT CHECK ( duration > 0 )         NOT NULL,
+    create_date      TIMESTAMP                          NOT NULL,
+    last_update_date TIMESTAMP                          NOT NULL
 );
 
 -- changeset Korolenko Sergey:2

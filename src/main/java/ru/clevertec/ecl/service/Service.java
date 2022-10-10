@@ -15,6 +15,4 @@ public interface Service<D> {
     D update(Integer id, D dto);
 
     void delete(Integer id);
-
-    D findByName(String name);
 }

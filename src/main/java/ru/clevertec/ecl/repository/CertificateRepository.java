@@ -23,6 +23,10 @@ public interface CertificateRepository extends JpaRepository<Certificate, Intege
     @Query("select c from Certificate c join fetch c.tags t where upper(t.name) = upper(:tagName)")
     List<Certificate> findAllByTagName(@Param("tagName") String tagName, Pageable pageable);
 
+    @Query("select c from Certificate c join fetch c.tags t where t.name in (:tagNames)")
+    List<Certificate> findAllBySeveralTagNames(@Param("tagNames") List<String> tagNames,
+                                               Pageable pageable);
+
     @EntityGraph(attributePaths = {"tags"})
     Optional<Certificate> findById(Integer id);
 

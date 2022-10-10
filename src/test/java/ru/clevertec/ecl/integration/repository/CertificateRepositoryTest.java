@@ -7,6 +7,7 @@ import ru.clevertec.ecl.entity.Certificate;
 import ru.clevertec.ecl.integration.IntegrationTestBase;
 import ru.clevertec.ecl.repository.CertificateRepository;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateForSaveWithId;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateForSaveWithoutId;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateUpdated;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateUpdatedDuration;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateUpdatedPrice;
 import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId1;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId3;
+import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId5;
 import static ru.clevertec.ecl.util.CertificateUtil.certificates;
 import static ru.clevertec.ecl.util.CertificateUtil.matcher;
 import static ru.clevertec.ecl.util.CertificateUtil.pageable;
@@ -65,6 +70,15 @@ public class CertificateRepositoryTest extends IntegrationTestBase {
     }
 
     @Test
+    void checkFindAllBySeveralTagNames() {
+        List<String> tagNames = Arrays.asList("cheap", "short");
+        List<Certificate> actual = repository.findAllBySeveralTagNames(tagNames, pageable());
+        List<Certificate> expected =
+                Arrays.asList(certificateWithId1(), certificateWithId3(), certificateWithId5());
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void checkFindByIdIfCertificateIdExist() {
         Optional<Certificate> optional = repository.findById(1);
         optional.ifPresent(actual -> assertEquals(certificateWithId1(), actual));
@@ -90,6 +104,18 @@ public class CertificateRepositoryTest extends IntegrationTestBase {
 
     @Test
     void checkUpdateIfCertificateHasUniqueIdAndUniqueName() {
+        Certificate actual = repository.save(certificateUpdated());
+        assertEquals(certificateUpdated(), actual);
+    }
+
+    @Test
+    void checkUpdatePriceIfCertificateHasUniqueId() {
+        Certificate actual = repository.save(certificateUpdatedPrice());
+        assertEquals(certificateUpdatedPrice(), actual);
+    }
+
+    @Test
+    void checkUpdateDurationIfCertificateHasUniqueId() {
         Certificate actual = repository.save(certificateUpdatedDuration());
         assertEquals(certificateUpdatedDuration(), actual);
     }

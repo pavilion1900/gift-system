@@ -54,6 +54,12 @@ public class TagServiceImplTest extends IntegrationTestBase {
     }
 
     @Test
+    void checkFindMostWidelyUsedTag() {
+        TagDto actual = service.findMostWidelyUsedTag();
+        assertEquals(tagDtoWithId1(), actual);
+    }
+
+    @Test
     void checkSaveIfTagHasUniqueName() {
         TagDto actual = service.save(tagDtoForSaveWithoutId());
         assertEquals(tagDtoForSaveWithId(), actual);
