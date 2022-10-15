@@ -24,22 +24,22 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static ru.clevertec.ecl.util.CertificateUtil.certificateDtoWithId3;
-import static ru.clevertec.ecl.util.OrderUtil.dtoOrders;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoForMakeOrder;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoForMakeOrderWithCost;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoWithId1;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoWithId2;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoWithId3;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoWithId4;
-import static ru.clevertec.ecl.util.OrderUtil.orderWithId1;
-import static ru.clevertec.ecl.util.OrderUtil.orderWithId2;
-import static ru.clevertec.ecl.util.OrderUtil.orderWithId3;
-import static ru.clevertec.ecl.util.OrderUtil.orderWithId4;
-import static ru.clevertec.ecl.util.OrderUtil.orderWithoutId;
-import static ru.clevertec.ecl.util.OrderUtil.orders;
-import static ru.clevertec.ecl.util.OrderUtil.pageable;
-import static ru.clevertec.ecl.util.UserUtil.userDtoWithId1;
+import static ru.clevertec.ecl.testdata.CertificateUtil.certificateDtoWithId3;
+import static ru.clevertec.ecl.testdata.OrderUtil.dtoOrders;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoForMakeOrder;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoForMakeOrderWithCost;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoWithId1;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoWithId2;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoWithId3;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoWithId4;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderWithId1;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderWithId2;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderWithId3;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderWithId4;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderWithoutId;
+import static ru.clevertec.ecl.testdata.OrderUtil.orders;
+import static ru.clevertec.ecl.testdata.OrderUtil.pageable;
+import static ru.clevertec.ecl.testdata.UserUtil.userDtoWithId1;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceImplTest {
@@ -56,7 +56,7 @@ class OrderServiceImplTest {
     private OrderMapper orderMapper;
 
     @InjectMocks
-    private OrderServiceImpl service;
+    private OrderServiceImpl orderService;
 
     @Test
     void checkFindAll() {
@@ -70,7 +70,7 @@ class OrderServiceImplTest {
                 .when(orderMapper).toDto(orderWithId3());
         doReturn(orderDtoWithId4())
                 .when(orderMapper).toDto(orderWithId4());
-        List<OrderDto> actual = service.findAll(pageable());
+        List<OrderDto> actual = orderService.findAll(pageable());
         assertEquals(dtoOrders(), actual);
         verify(orderRepository).findAll(pageable());
         verify(orderMapper, times(4)).toDto(any(Order.class));
@@ -84,7 +84,7 @@ class OrderServiceImplTest {
                 .when(orderMapper).toDto(orderWithId1());
         doReturn(orderDtoWithId4())
                 .when(orderMapper).toDto(orderWithId4());
-        List<OrderDto> actual = service.findAllByUserId(pageable(), 1);
+        List<OrderDto> actual = orderService.findAllByUserId(pageable(), 1);
         List<OrderDto> expected = Arrays.asList(orderDtoWithId1(), orderDtoWithId4());
         assertEquals(expected, actual);
         verify(orderRepository).findAllByUserId(pageable(), 1);
@@ -97,7 +97,7 @@ class OrderServiceImplTest {
                 .when(orderRepository).findById(1);
         doReturn(orderDtoWithId1())
                 .when(orderMapper).toDto(orderWithId1());
-        OrderDto actual = service.findById(1);
+        OrderDto actual = orderService.findById(1);
         assertEquals(orderDtoWithId1(), actual);
         verify(orderRepository).findById(1);
         verify(orderMapper).toDto(orderWithId1());
@@ -107,7 +107,7 @@ class OrderServiceImplTest {
     void throwExceptionIfOrderIdNotExist() {
         doReturn(Optional.empty())
                 .when(orderRepository).findById(1);
-        assertThrows(EntityNotFoundException.class, () -> service.findById(1));
+        assertThrows(EntityNotFoundException.class, () -> orderService.findById(1));
     }
 
     @Test
@@ -117,13 +117,12 @@ class OrderServiceImplTest {
         doReturn(userDtoWithId1())
                 .when(userService).findById(orderDtoForMakeOrder().getUserId());
         doReturn(orderWithoutId())
-                .when(orderMapper).toEntity(
-                        orderDtoForMakeOrderWithCost(), certificateDtoWithId3(), userDtoWithId1());
+                .when(orderMapper).toEntity(orderDtoForMakeOrderWithCost(), certificateDtoWithId3(), userDtoWithId1());
         doReturn(orderWithId1())
                 .when(orderRepository).save(orderWithoutId());
         doReturn(orderDtoWithId1())
                 .when(orderMapper).toDto(orderWithId1());
-        OrderDto actual = service.makeOrder(orderDtoForMakeOrder());
+        OrderDto actual = orderService.makeOrder(orderDtoForMakeOrder());
         assertEquals(orderDtoWithId1(), actual);
         verify(orderRepository).save(orderWithoutId());
         verify(orderMapper).toDto(orderWithId1());
@@ -133,8 +132,7 @@ class OrderServiceImplTest {
     void throwExceptionWhenMakeOrderIfCertificateIdNotExist() {
         doThrow(EntityNotFoundException.class)
                 .when(certificateService).findById(orderDtoForMakeOrder().getCertificateId());
-        assertThrows(EntityNotFoundException.class,
-                () -> service.makeOrder(orderDtoForMakeOrder()));
+        assertThrows(EntityNotFoundException.class, () -> orderService.makeOrder(orderDtoForMakeOrder()));
     }
 
     @Test
@@ -143,7 +141,6 @@ class OrderServiceImplTest {
                 .when(certificateService).findById(orderDtoForMakeOrder().getCertificateId());
         doThrow(EntityNotFoundException.class)
                 .when(userService).findById(orderDtoForMakeOrder().getUserId());
-        assertThrows(EntityNotFoundException.class,
-                () -> service.makeOrder(orderDtoForMakeOrder()));
+        assertThrows(EntityNotFoundException.class, () -> orderService.makeOrder(orderDtoForMakeOrder()));
     }
 }

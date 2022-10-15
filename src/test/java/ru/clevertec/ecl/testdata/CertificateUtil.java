@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.util;
+package ru.clevertec.ecl.testdata;
 
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
@@ -403,13 +403,13 @@ public class CertificateUtil {
     }
 
     public static List<Certificate> certificates() {
-        return Arrays.asList(certificateWithId1(), certificateWithId2(), certificateWithId3(),
-                certificateWithId4(), certificateWithId5());
+        return Arrays.asList(certificateWithId1(), certificateWithId2(), certificateWithId3(), certificateWithId4(),
+                certificateWithId5());
     }
 
     public static List<CertificateDto> dtoCertificates() {
-        return Arrays.asList(certificateDtoWithId1(), certificateDtoWithId2(),
-                certificateDtoWithId3(), certificateDtoWithId4(), certificateDtoWithId5());
+        return Arrays.asList(certificateDtoWithId1(), certificateDtoWithId2(), certificateDtoWithId3(),
+                certificateDtoWithId4(), certificateDtoWithId5());
     }
 
     public static Pageable pageable() {
@@ -422,9 +422,7 @@ public class CertificateUtil {
 
     public static ExampleMatcher matcher() {
         return ExampleMatcher.matchingAny()
-                .withMatcher("name",
-                        ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("description",
-                        ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+                .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("description", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
     }
 }

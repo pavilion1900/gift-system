@@ -11,32 +11,32 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.clevertec.ecl.util.OrderUtil.orderWithId1;
-import static ru.clevertec.ecl.util.OrderUtil.orderWithId4;
-import static ru.clevertec.ecl.util.OrderUtil.orders;
-import static ru.clevertec.ecl.util.OrderUtil.pageable;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderWithId1;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderWithId4;
+import static ru.clevertec.ecl.testdata.OrderUtil.orders;
+import static ru.clevertec.ecl.testdata.OrderUtil.pageable;
 
 @RequiredArgsConstructor
 public class OrderRepositoryTest extends IntegrationTestBase {
 
-    private final OrderRepository repository;
+    private final OrderRepository orderRepository;
 
     @Test
     void checkFindAll() {
-        List<Order> actual = repository.findAll(pageable()).getContent();
+        List<Order> actual = orderRepository.findAll(pageable()).getContent();
         assertEquals(orders(), actual);
     }
 
     @Test
     void checkFindAllByUserId() {
-        List<Order> actual = repository.findAllByUserId(pageable(), 1);
+        List<Order> actual = orderRepository.findAllByUserId(pageable(), 1);
         List<Order> expected = Arrays.asList(orderWithId1(), orderWithId4());
         assertEquals(expected, actual);
     }
 
     @Test
     void checkFindByIdIfOrderIdExist() {
-        Optional<Order> optional = repository.findById(1);
+        Optional<Order> optional = orderRepository.findById(1);
         optional.ifPresent(actual -> assertEquals(orderWithId1(), actual));
     }
 }

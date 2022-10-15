@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.util;
+package ru.clevertec.ecl.testdata;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

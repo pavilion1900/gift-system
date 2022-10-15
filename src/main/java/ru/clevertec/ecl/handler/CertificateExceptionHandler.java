@@ -12,8 +12,7 @@ import ru.clevertec.ecl.exception.ValidateDtoException;
 public class CertificateExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorMessage> handleEntityNotFoundException(
-            EntityNotFoundException exception) {
+    public ResponseEntity<ErrorMessage> handleEntityNotFoundException(EntityNotFoundException exception) {
         return ResponseEntity.status(exception.getStatus())
                 .body(ErrorMessage.builder()
                         .errorMessage(exception.getMessage())

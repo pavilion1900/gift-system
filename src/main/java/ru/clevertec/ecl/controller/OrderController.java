@@ -2,6 +2,7 @@ package ru.clevertec.ecl.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +43,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> makeOrderByCertificateId(
-            @Valid @RequestBody OrderDto orderDto) {
-        return ResponseEntity.ok(orderService.makeOrder(orderDto));
+    public ResponseEntity<OrderDto> makeOrderByCertificateId(@Valid @RequestBody OrderDto orderDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.makeOrder(orderDto));
     }
 }

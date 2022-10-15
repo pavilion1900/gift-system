@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.util;
+package ru.clevertec.ecl.testdata;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId2;
-import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId3;
-import static ru.clevertec.ecl.util.CertificateUtil.certificateWithId5;
-import static ru.clevertec.ecl.util.UserUtil.userWithId1;
-import static ru.clevertec.ecl.util.UserUtil.userWithId2;
-import static ru.clevertec.ecl.util.UserUtil.userWithId3;
+import static ru.clevertec.ecl.testdata.CertificateUtil.certificateWithId2;
+import static ru.clevertec.ecl.testdata.CertificateUtil.certificateWithId3;
+import static ru.clevertec.ecl.testdata.CertificateUtil.certificateWithId5;
+import static ru.clevertec.ecl.testdata.UserUtil.userWithId1;
+import static ru.clevertec.ecl.testdata.UserUtil.userWithId2;
+import static ru.clevertec.ecl.testdata.UserUtil.userWithId3;
 
 public class OrderUtil {
 
@@ -142,8 +142,7 @@ public class OrderUtil {
     }
 
     public static List<OrderDto> dtoOrders() {
-        return Arrays.asList(orderDtoWithId1(), orderDtoWithId2(), orderDtoWithId3(),
-                orderDtoWithId4());
+        return Arrays.asList(orderDtoWithId1(), orderDtoWithId2(), orderDtoWithId3(), orderDtoWithId4());
     }
 
     public static Pageable pageable() {

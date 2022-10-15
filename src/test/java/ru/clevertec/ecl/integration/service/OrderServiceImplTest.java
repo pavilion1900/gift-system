@@ -12,58 +12,58 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.clevertec.ecl.util.OrderUtil.dtoOrders;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoForMakeOrder;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoForMakeOrderWithNotExistCertificateId;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoForMakeOrderWithNotExistUserId;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoWithId1;
-import static ru.clevertec.ecl.util.OrderUtil.orderDtoWithId4;
-import static ru.clevertec.ecl.util.OrderUtil.pageable;
+import static ru.clevertec.ecl.testdata.OrderUtil.dtoOrders;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoForMakeOrder;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoForMakeOrderWithNotExistCertificateId;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoForMakeOrderWithNotExistUserId;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoWithId1;
+import static ru.clevertec.ecl.testdata.OrderUtil.orderDtoWithId4;
+import static ru.clevertec.ecl.testdata.OrderUtil.pageable;
 
 @RequiredArgsConstructor
 public class OrderServiceImplTest extends IntegrationTestBase {
 
-    private final OrderService service;
+    private final OrderService orderService;
 
     @Test
     void checkFindAll() {
-        List<OrderDto> actual = service.findAll(pageable());
+        List<OrderDto> actual = orderService.findAll(pageable());
         assertEquals(dtoOrders(), actual);
     }
 
     @Test
     void checkFindAllByUserId() {
-        List<OrderDto> actual = service.findAllByUserId(pageable(), 1);
+        List<OrderDto> actual = orderService.findAllByUserId(pageable(), 1);
         List<OrderDto> expected = Arrays.asList(orderDtoWithId1(), orderDtoWithId4());
         assertEquals(expected, actual);
     }
 
     @Test
     void checkFindByIdIfOrderIdExist() {
-        OrderDto actual = service.findById(1);
+        OrderDto actual = orderService.findById(1);
         assertEquals(orderDtoWithId1(), actual);
     }
 
     @Test
     void throwExceptionIfOrderIdNotExist() {
-        assertThrows(EntityNotFoundException.class, () -> service.findById(10));
+        assertThrows(EntityNotFoundException.class, () -> orderService.findById(10));
     }
 
     @Test
     void checkMakeOrderIfCertificateIdAndOrderIdExist() {
-        OrderDto actual = service.makeOrder(orderDtoForMakeOrder());
+        OrderDto actual = orderService.makeOrder(orderDtoForMakeOrder());
         assertEquals(orderDtoWithId1(), actual);
     }
 
     @Test
     void throwExceptionWhenMakeOrderIfCertificateIdNotExist() {
         assertThrows(EntityNotFoundException.class,
-                () -> service.makeOrder(orderDtoForMakeOrderWithNotExistUserId()));
+                () -> orderService.makeOrder(orderDtoForMakeOrderWithNotExistUserId()));
     }
 
     @Test
     void throwExceptionWhenMakeOrderIfUserIdNotExist() {
         assertThrows(EntityNotFoundException.class,
-                () -> service.makeOrder(orderDtoForMakeOrderWithNotExistCertificateId()));
+                () -> orderService.makeOrder(orderDtoForMakeOrderWithNotExistCertificateId()));
     }
 }

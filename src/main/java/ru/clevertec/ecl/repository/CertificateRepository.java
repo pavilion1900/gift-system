@@ -24,14 +24,11 @@ public interface CertificateRepository extends JpaRepository<Certificate, Intege
     List<Certificate> findAllByTagName(@Param("tagName") String tagName, Pageable pageable);
 
     @Query("select c from Certificate c join fetch c.tags t where t.name in (:tagNames)")
-    List<Certificate> findAllBySeveralTagNames(@Param("tagNames") List<String> tagNames,
-                                               Pageable pageable);
+    List<Certificate> findAllBySeveralTagNames(@Param("tagNames") List<String> tagNames, Pageable pageable);
 
     @EntityGraph(attributePaths = {"tags"})
     Optional<Certificate> findById(Integer id);
 
     @EntityGraph(attributePaths = {"tags"})
     Optional<Certificate> findByNameIgnoreCase(String certificateName);
-
-    boolean existsByNameIgnoreCase(String certificateName);
 }

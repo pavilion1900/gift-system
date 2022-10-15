@@ -18,7 +18,6 @@ import ru.clevertec.ecl.service.CertificateService;
 import ru.clevertec.ecl.service.TagService;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -39,9 +38,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public List<CertificateDto> findAllByIgnoreCase(String name,
-                                                    String description,
-                                                    Pageable pageable) {
+    public List<CertificateDto> findAllByIgnoreCase(String name, String description, Pageable pageable) {
         return certificateRepository.findAll(
                         Example.of(Certificate.builder()
                                         .name(name)
@@ -70,13 +67,11 @@ public class CertificateServiceImpl implements CertificateService {
     public CertificateDto findById(Integer id) {
         return certificateRepository.findById(id)
                 .map(certificateMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Certificate with id %d not found", id)
-                ));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Certificate with id %d not found", id)));
     }
 
     @Override
-    public CertificateDto findByName(String certificateName) {
+    public CertificateDto findByNameIgnoreCase(String certificateName) {
         return certificateRepository.findByNameIgnoreCase(certificateName)
                 .map(certificateMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -87,7 +82,6 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     @Transactional
     public CertificateDto save(CertificateDto certificateDto) {
-        checkCertificateName(certificateDto);
         checkTags(certificateDto);
         Certificate certificate = certificateMapper.toEntity(certificateDto);
         return certificateMapper.toDto(certificateRepository.save(certificate));
@@ -101,16 +95,13 @@ public class CertificateServiceImpl implements CertificateService {
                 .map(certificateDtoWithId -> {
                     certificateMapper.updateDto(certificateDto, certificateDtoWithId);
                     certificateDtoWithId.setId(id);
-                    checkCertificateNameAndId(certificateDtoWithId, id);
                     checkTags(certificateDtoWithId);
                     return certificateDtoWithId;
                 })
                 .map(certificateMapper::toEntity)
                 .map(certificateRepository::save)
                 .map(certificateMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Certificate with id %d not found", id)
-                ));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Certificate with id %d not found", id)));
     }
 
     @Override
@@ -125,28 +116,22 @@ public class CertificateServiceImpl implements CertificateService {
                 .map(certificateMapper::toEntity)
                 .map(certificateRepository::save)
                 .map(certificateMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Certificate with id %d not found", id)
-                ));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Certificate with id %d not found", id)));
     }
 
     @Override
     @Transactional
-    public CertificateDto updateDuration(Integer id,
-                                         CertificateDurationDto certificateDurationDto) {
+    public CertificateDto updateDuration(Integer id, CertificateDurationDto certificateDurationDto) {
         return certificateRepository.findById(id)
                 .map(certificateMapper::toDto)
                 .map(certificateDtoWithId -> {
-                    certificateMapper.updateDurationDto(
-                            certificateDurationDto, certificateDtoWithId);
+                    certificateMapper.updateDurationDto(certificateDurationDto, certificateDtoWithId);
                     return certificateDtoWithId;
                 })
                 .map(certificateMapper::toEntity)
                 .map(certificateRepository::save)
                 .map(certificateMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Certificate with id %d not found", id)
-                ));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Certificate with id %d not found", id)));
     }
 
     @Override
@@ -157,26 +142,7 @@ public class CertificateServiceImpl implements CertificateService {
                     certificateRepository.deleteById(id);
                     return certificate;
                 })
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Certificate with id %d not exist", id)));
-    }
-
-    private void checkCertificateName(CertificateDto certificateDto) {
-        if (certificateRepository.existsByNameIgnoreCase(certificateDto.getName())) {
-            throw new EntityNotFoundException(
-                    String.format("Certificate with name %s already exist",
-                            certificateDto.getName()));
-        }
-    }
-
-    private void checkCertificateNameAndId(CertificateDto certificateDto, Integer id) {
-        Optional<Certificate> optionalCertificate =
-                certificateRepository.findByNameIgnoreCase(certificateDto.getName());
-        if (optionalCertificate.isPresent() && !optionalCertificate.get().getId().equals(id)) {
-            throw new EntityNotFoundException(
-                    String.format("Certificate with name %s already exist",
-                            certificateDto.getName()));
-        }
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Certificate with id %d not exist", id)));
     }
 
     private void checkTags(CertificateDto certificateDto) {
@@ -190,9 +156,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     private ExampleMatcher matcher() {
         return ExampleMatcher.matchingAny()
-                .withMatcher("name",
-                        ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("description",
-                        ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+                .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("description", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
     }
 }

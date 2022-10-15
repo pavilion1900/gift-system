@@ -7,7 +7,11 @@ import ru.clevertec.ecl.dto.CertificatePriceDto;
 
 import java.util.List;
 
-public interface CertificateService extends Service<CertificateDto> {
+public interface CertificateService {
+
+    List<CertificateDto> findAll(Pageable pageable);
+
+    CertificateDto findById(Integer id);
 
     List<CertificateDto> findAllByIgnoreCase(String name, String description, Pageable pageable);
 
@@ -15,9 +19,15 @@ public interface CertificateService extends Service<CertificateDto> {
 
     List<CertificateDto> findAllBySeveralTagNames(List<String> tagNames, Pageable pageable);
 
-    CertificateDto findByName(String certificateName);
+    CertificateDto findByNameIgnoreCase(String certificateName);
+
+    CertificateDto save(CertificateDto certificateDto);
+
+    CertificateDto update(Integer id, CertificateDto certificateDto);
 
     CertificateDto updatePrice(Integer id, CertificatePriceDto certificatePriceDto);
 
     CertificateDto updateDuration(Integer id, CertificateDurationDto certificatePriceDto);
+
+    void delete(Integer id);
 }

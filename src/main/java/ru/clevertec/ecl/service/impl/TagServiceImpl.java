@@ -12,7 +12,6 @@ import ru.clevertec.ecl.repository.TagRepository;
 import ru.clevertec.ecl.service.TagService;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -35,18 +34,14 @@ public class TagServiceImpl implements TagService {
     public TagDto findById(Integer id) {
         return tagRepository.findById(id)
                 .map(tagMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Tag with id %d not found", id)
-                ));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Tag with id %d not found", id)));
     }
 
     @Override
-    public TagDto findByName(String tagName) {
+    public TagDto findByNameIgnoreCase(String tagName) {
         return tagRepository.findByNameIgnoreCase(tagName)
                 .map(tagMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Tag with name %s not found", tagName)
-                ));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Tag with name %s not found", tagName)));
     }
 
     @Override
@@ -59,15 +54,8 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public TagDto save(TagDto tagDto) {
-        return (TagDto) tagRepository.findByNameIgnoreCase(tagDto.getName())
-                .map(tag -> {
-                    throw new EntityNotFoundException(
-                            String.format("Tag with name %s already exist", tagDto.getName()));
-                })
-                .orElseGet(() -> {
-                    Tag tag = tagMapper.toEntity(tagDto);
-                    return tagMapper.toDto(tagRepository.save(tag));
-                });
+        Tag tag = tagMapper.toEntity(tagDto);
+        return tagMapper.toDto(tagRepository.save(tag));
     }
 
     @Override
@@ -75,14 +63,12 @@ public class TagServiceImpl implements TagService {
     public TagDto update(Integer id, TagDto tagDto) {
         return tagRepository.findById(id)
                 .map(tag -> {
-                    checkTagNameAndId(tagDto, id);
                     tag.setName(tagDto.getName());
                     return tag;
                 })
                 .map(tagRepository::save)
                 .map(tagMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Tag with id %d not exist", id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Tag with id %d not exist", id)));
     }
 
     @Override
@@ -93,17 +79,7 @@ public class TagServiceImpl implements TagService {
                     tagRepository.deleteById(id);
                     return tag;
                 })
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Tag with id %d not exist", id)));
-    }
-
-    private void checkTagNameAndId(TagDto tagDto, Integer id) {
-        Optional<Tag> optionalTag =
-                tagRepository.findByNameIgnoreCase(tagDto.getName());
-        if (optionalTag.isPresent() && !optionalTag.get().getId().equals(id)) {
-            throw new EntityNotFoundException(
-                    String.format("Tag with name %s already exist", tagDto.getName()));
-        }
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Tag with id %d not exist", id)));
     }
 
     @Override

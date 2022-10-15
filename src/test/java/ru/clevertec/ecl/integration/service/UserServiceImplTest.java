@@ -12,40 +12,39 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.clevertec.ecl.util.UserUtil.dtoUsers;
-import static ru.clevertec.ecl.util.UserUtil.userDtoWithId1;
+import static ru.clevertec.ecl.testdata.UserUtil.dtoUsers;
+import static ru.clevertec.ecl.testdata.UserUtil.userDtoWithId1;
 
 @RequiredArgsConstructor
 public class UserServiceImplTest extends IntegrationTestBase {
 
-    private final UserService service;
+    private final UserService userService;
 
     @Test
     void checkFindAll() {
-        List<UserDto> actual = service.findAll(PageRequest.of(0, 20));
+        List<UserDto> actual = userService.findAll(PageRequest.of(0, 20));
         assertEquals(dtoUsers(), actual);
     }
 
     @Test
     void checkFindByIdIfUserIdExist() {
-        UserDto actual = service.findById(1);
+        UserDto actual = userService.findById(1);
         assertEquals(userDtoWithId1(), actual);
     }
 
     @Test
     void throwExceptionIfUserIdNotExist() {
-        assertThrows(EntityNotFoundException.class, () -> service.findById(10));
+        assertThrows(EntityNotFoundException.class, () -> userService.findById(10));
     }
 
     @Test
     void checkFindByNameIfUserNameExist() {
-        UserDto actual = service.findByNameIgnoreCase("Ivanov");
+        UserDto actual = userService.findByNameIgnoreCase("Ivanov");
         assertEquals(userDtoWithId1(), actual);
     }
 
     @Test
     void throwExceptionIfUserNameNotExist() {
-        assertThrows(EntityNotFoundException.class,
-                () -> service.findByNameIgnoreCase("Ivanov333"));
+        assertThrows(EntityNotFoundException.class, () -> userService.findByNameIgnoreCase("Ivanov333"));
     }
 }

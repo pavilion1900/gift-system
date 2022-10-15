@@ -48,9 +48,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto findById(Integer id) {
         return orderRepository.findById(id)
                 .map(orderMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Order with id %d not found", id)
-                ));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Order with id %d not found", id)));
     }
 
     @Override

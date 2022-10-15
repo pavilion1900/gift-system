@@ -22,79 +22,79 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static ru.clevertec.ecl.util.UserUtil.dtoUsers;
-import static ru.clevertec.ecl.util.UserUtil.pageable;
-import static ru.clevertec.ecl.util.UserUtil.userDtoWithId1;
-import static ru.clevertec.ecl.util.UserUtil.userDtoWithId2;
-import static ru.clevertec.ecl.util.UserUtil.userDtoWithId3;
-import static ru.clevertec.ecl.util.UserUtil.userWithId1;
-import static ru.clevertec.ecl.util.UserUtil.userWithId2;
-import static ru.clevertec.ecl.util.UserUtil.userWithId3;
-import static ru.clevertec.ecl.util.UserUtil.users;
+import static ru.clevertec.ecl.testdata.UserUtil.dtoUsers;
+import static ru.clevertec.ecl.testdata.UserUtil.pageable;
+import static ru.clevertec.ecl.testdata.UserUtil.userDtoWithId1;
+import static ru.clevertec.ecl.testdata.UserUtil.userDtoWithId2;
+import static ru.clevertec.ecl.testdata.UserUtil.userDtoWithId3;
+import static ru.clevertec.ecl.testdata.UserUtil.userWithId1;
+import static ru.clevertec.ecl.testdata.UserUtil.userWithId2;
+import static ru.clevertec.ecl.testdata.UserUtil.userWithId3;
+import static ru.clevertec.ecl.testdata.UserUtil.users;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
     @Mock
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Mock
     private UserMapper userMapper;
 
     @InjectMocks
-    private UserServiceImpl service;
+    private UserServiceImpl userService;
 
     @Test
     void checkFindAll() {
         doReturn(new PageImpl<>(users()))
-                .when(repository).findAll(pageable());
+                .when(userRepository).findAll(pageable());
         doReturn(userDtoWithId1())
                 .when(userMapper).toDto(userWithId1());
         doReturn(userDtoWithId2())
                 .when(userMapper).toDto(userWithId2());
         doReturn(userDtoWithId3())
                 .when(userMapper).toDto(userWithId3());
-        List<UserDto> actual = service.findAll(pageable());
+        List<UserDto> actual = userService.findAll(pageable());
         assertEquals(dtoUsers(), actual);
-        verify(repository).findAll(pageable());
+        verify(userRepository).findAll(pageable());
         verify(userMapper, times(3)).toDto(any(User.class));
     }
 
     @Test
     void checkFindByIdIfUserIdExist() {
         doReturn(Optional.of(userWithId1()))
-                .when(repository).findById(1);
+                .when(userRepository).findById(1);
         doReturn(userDtoWithId1())
                 .when(userMapper).toDto(userWithId1());
-        UserDto actual = service.findById(1);
+        UserDto actual = userService.findById(1);
         assertEquals(userDtoWithId1(), actual);
-        verify(repository).findById(1);
+        verify(userRepository).findById(1);
         verify(userMapper).toDto(userWithId1());
     }
 
     @Test
     void throwExceptionIfUserIdNotExist() {
         doReturn(Optional.empty())
-                .when(repository).findById(1);
-        assertThrows(EntityNotFoundException.class, () -> service.findById(1));
+                .when(userRepository).findById(1);
+        assertThrows(EntityNotFoundException.class, () -> userService.findById(1));
     }
 
     @Test
     void checkFindByNameIfUserNameExist() {
         doReturn(Optional.of(userWithId1()))
-                .when(repository).findByNameIgnoreCase("Ivanov");
+                .when(userRepository).findByNameIgnoreCase("Ivanov");
         doReturn(userDtoWithId1())
                 .when(userMapper).toDto(userWithId1());
-        UserDto actual = service.findByNameIgnoreCase("Ivanov");
+        UserDto actual = userService.findByNameIgnoreCase("Ivanov");
         assertEquals(userDtoWithId1(), actual);
-        verify(repository).findByNameIgnoreCase("Ivanov");
+        verify(userRepository).findByNameIgnoreCase("Ivanov");
         verify(userMapper).toDto(userWithId1());
     }
 
     @Test
     void throwExceptionIfUserNameNotExist() {
         doReturn(Optional.empty())
-                .when(repository).findByNameIgnoreCase("Ivanov");
-        assertThrows(EntityNotFoundException.class, () -> service.findByNameIgnoreCase("Ivanov"));
+                .when(userRepository).findByNameIgnoreCase("Ivanov");
+        assertThrows(EntityNotFoundException.class, () -> userService.findByNameIgnoreCase("Ivanov"));
     }
 }

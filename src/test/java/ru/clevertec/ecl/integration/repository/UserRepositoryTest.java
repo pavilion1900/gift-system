@@ -11,29 +11,29 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.clevertec.ecl.util.UserUtil.userWithId1;
-import static ru.clevertec.ecl.util.UserUtil.users;
+import static ru.clevertec.ecl.testdata.UserUtil.userWithId1;
+import static ru.clevertec.ecl.testdata.UserUtil.users;
 
 @RequiredArgsConstructor
 public class UserRepositoryTest extends IntegrationTestBase {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
     @Test
     void checkFindAll() {
-        List<User> actual = repository.findAll(PageRequest.of(0, 20)).getContent();
+        List<User> actual = userRepository.findAll(PageRequest.of(0, 20)).getContent();
         assertEquals(users(), actual);
     }
 
     @Test
     void checkFindByIdIfTagIdExist() {
-        Optional<User> optional = repository.findById(1);
+        Optional<User> optional = userRepository.findById(1);
         optional.ifPresent(user -> assertEquals(userWithId1(), user));
     }
 
     @Test
     void checkFindByNameIfTagNameExist() {
-        Optional<User> optional = repository.findByNameIgnoreCase("Ivanov");
+        Optional<User> optional = userRepository.findByNameIgnoreCase("Ivanov");
         optional.ifPresent(user -> assertEquals(userWithId1(), user));
     }
 }

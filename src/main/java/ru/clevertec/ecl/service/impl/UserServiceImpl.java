@@ -33,17 +33,13 @@ public class UserServiceImpl implements UserService {
     public UserDto findById(Integer id) {
         return userRepository.findById(id)
                 .map(userMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("User with id %d not found", id)
-                ));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("User with id %d not found", id)));
     }
 
     @Override
     public UserDto findByNameIgnoreCase(String userName) {
         return userRepository.findByNameIgnoreCase(userName)
                 .map(userMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("User with name %s not found", userName)
-                ));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("User with name %s not found", userName)));
     }
 }

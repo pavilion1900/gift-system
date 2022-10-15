@@ -14,8 +14,7 @@ import ru.clevertec.ecl.integration.annotation.IT;
 })
 public abstract class IntegrationTestBase {
 
-    private static final PostgreSQLContainer<?> CONTAINER =
-            new PostgreSQLContainer<>("postgres:14");
+    private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>("postgres:14");
 
     @BeforeAll
     static void runContainer() {
