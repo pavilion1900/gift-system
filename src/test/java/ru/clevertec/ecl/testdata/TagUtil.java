@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.util;
+package ru.clevertec.ecl.testdata;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -78,9 +78,10 @@ public class TagUtil {
                 .build();
     }
 
-    public static Tag tagForUpdateWithoutId() {
+    public static Tag tagForUpdateWithId2() {
         return Tag.builder()
-                .name("hot")
+                .id(2)
+                .name("new")
                 .build();
     }
 
@@ -132,19 +133,6 @@ public class TagUtil {
                 .build();
     }
 
-    public static TagDto tagDtoWithId20() {
-        return TagDto.builder()
-                .id(2)
-                .name("short")
-                .build();
-    }
-
-    public static TagDto tagDtoWithoutId20() {
-        return TagDto.builder()
-                .name("short")
-                .build();
-    }
-
     public static TagDto tagDtoForSaveWithId() {
         return TagDto.builder()
                 .id(7)
@@ -172,13 +160,12 @@ public class TagUtil {
     }
 
     public static List<Tag> tags() {
-        return Arrays.asList(tagWithId1(), tagWithId2(), tagWithId3(),
-                tagWithId4(), tagWithId5(), tagWithId6());
+        return Arrays.asList(tagWithId1(), tagWithId2(), tagWithId3(), tagWithId4(), tagWithId5(), tagWithId6());
     }
 
     public static List<TagDto> dtoTags() {
-        return Arrays.asList(tagDtoWithId1(), tagDtoWithId2(), tagDtoWithId3(),
-                tagDtoWithId4(), tagDtoWithId5(), tagDtoWithId6());
+        return Arrays.asList(tagDtoWithId1(), tagDtoWithId2(), tagDtoWithId3(), tagDtoWithId4(), tagDtoWithId5(),
+                tagDtoWithId6());
     }
 
     public static Pageable pageable() {

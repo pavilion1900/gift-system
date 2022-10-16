@@ -1,4 +1,4 @@
 ext.versions = [
-        'mapstruct': '1.5.2.Final',
-        'testcontainers': '1.17.3'
+        'mapstruct'     : '1.5.2.Final',
+        'testcontainers': '1.17.4'
 ]

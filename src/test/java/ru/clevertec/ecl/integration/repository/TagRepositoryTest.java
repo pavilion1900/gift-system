@@ -12,51 +12,59 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static ru.clevertec.ecl.util.TagUtil.tagForSaveWithId;
-import static ru.clevertec.ecl.util.TagUtil.tagForSaveWithoutId;
-import static ru.clevertec.ecl.util.TagUtil.tagForUpdateWithId;
-import static ru.clevertec.ecl.util.TagUtil.tagWithId1;
-import static ru.clevertec.ecl.util.TagUtil.tags;
+import static ru.clevertec.ecl.testdata.TagUtil.tagForSaveWithId;
+import static ru.clevertec.ecl.testdata.TagUtil.tagForSaveWithoutId;
+import static ru.clevertec.ecl.testdata.TagUtil.tagForUpdateWithId;
+import static ru.clevertec.ecl.testdata.TagUtil.tagWithId1;
+import static ru.clevertec.ecl.testdata.TagUtil.tags;
 
 @RequiredArgsConstructor
 public class TagRepositoryTest extends IntegrationTestBase {
 
-    private final TagRepository repository;
+    private final TagRepository tagRepository;
 
     @Test
     void checkFindAll() {
-        List<Tag> actual = repository.findAll(PageRequest.of(0, 20)).getContent();
+        List<Tag> actual = tagRepository.findAll(PageRequest.of(0, 20)).getContent();
         assertEquals(tags(), actual);
     }
 
     @Test
     void checkFindByIdIfTagIdExist() {
-        Optional<Tag> optional = repository.findById(1);
+        Optional<Tag> optional = tagRepository.findById(1);
         optional.ifPresent(tag -> assertEquals(tagWithId1(), tag));
     }
 
     @Test
     void checkFindByNameIfTagNameExist() {
-        Optional<Tag> optional = repository.findByNameIgnoreCase("new");
+        Optional<Tag> optional = tagRepository.findByNameIgnoreCase("new");
+        optional.ifPresent(tag -> assertEquals(tagWithId1(), tag));
+    }
+
+    @Test
+    void checkFindMostWidelyUsedTag() {
+        Optional<Tag> optional = tagRepository.findMostWidelyUsedTag();
         optional.ifPresent(tag -> assertEquals(tagWithId1(), tag));
     }
 
     @Test
     void checkSaveIfTagHasUniqueName() {
-        Tag actual = repository.save(tagForSaveWithoutId());
+        Tag actual = tagRepository.save(tagForSaveWithoutId());
         assertEquals(tagForSaveWithId(), actual);
     }
 
     @Test
     void checkUpdateIfTagHasUniqueIdAndUniqueName() {
-        Tag actual = repository.save(tagForUpdateWithId());
+        Tag actual = tagRepository.save(tagForUpdateWithId());
+        tagRepository.flush();
         assertEquals(tagForUpdateWithId(), actual);
     }
 
     @Test
     void checkDeleteIfTagHasUniqueId() {
-        repository.deleteById(1);
-        Optional<Tag> optional = repository.findById(1);
+        tagRepository.deleteById(2);
+        Optional<Tag> optional = tagRepository.findById(2);
+        tagRepository.flush();
         assertFalse(optional.isPresent());
     }
 }
