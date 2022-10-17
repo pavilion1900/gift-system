@@ -24,4 +24,7 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
             + "ORDER BY COUNT(tag.id) DESC "
             + "LIMIT 1", nativeQuery = true)
     Optional<Tag> findMostWidelyUsedTag();
+
+    @Query(value = "SELECT last_value FROM tag_id_seq", nativeQuery = true)
+    Integer findLastSequenceValue();
 }

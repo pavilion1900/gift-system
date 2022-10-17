@@ -1,0 +1,201 @@
+version: '3.8'
+
+services:
+
+  first-app:
+    build: .
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://first-db:5432/first-db
+      SPRING_DATASOURCE_USERNAME: first-user
+      SPRING_DATASOURCE_PASSWORD: 1111
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      - first-db
+
+  first-db:
+    image: postgres:14
+    ports:
+      - "7001:5432"
+    environment:
+      POSTGRES_DB: first-db
+      POSTGRES_USER: first-user
+      POSTGRES_PASSWORD: 1111
+
+  second-app:
+    build: .
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://second-db:5432/second-db
+      SPRING_DATASOURCE_USERNAME: second-user
+      SPRING_DATASOURCE_PASSWORD: 2222
+      SERVER_PORT: 8082
+    ports:
+      - "8082:8082"
+    depends_on:
+      - second-db
+
+  second-db:
+    image: postgres:14
+    ports:
+      - "7002:5432"
+    environment:
+      POSTGRES_DB: second-db
+      POSTGRES_USER: second-user
+      POSTGRES_PASSWORD: 2222
+
+  third-app:
+    build: .
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://third-db:5432/third-db
+      SPRING_DATASOURCE_USERNAME: third-user
+      SPRING_DATASOURCE_PASSWORD: 3333
+      SERVER_PORT: 8083
+    ports:
+      - "8083:8083"
+    depends_on:
+      - third-db
+
+  third-db:
+    image: postgres:14
+    ports:
+      - "7003:5432"
+    environment:
+      POSTGRES_DB: third-db
+      POSTGRES_USER: third-user
+      POSTGRES_PASSWORD: 3333
+
+  fourth-app:
+    build: .
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://fourth-db:5432/fourth-db
+      SPRING_DATASOURCE_USERNAME: fourth-user
+      SPRING_DATASOURCE_PASSWORD: 4444
+      SERVER_PORT: 8084
+    ports:
+      - "8084:8084"
+    depends_on:
+      - fourth-db
+
+  fourth-db:
+    image: postgres:14
+    ports:
+      - "7004:5432"
+    environment:
+      POSTGRES_DB: fourth-db
+      POSTGRES_USER: fourth-user
+      POSTGRES_PASSWORD: 4444
+
+  fifth-app:
+    build: .
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://fifth-db:5432/fifth-db
+      SPRING_DATASOURCE_USERNAME: fifth-user
+      SPRING_DATASOURCE_PASSWORD: 5555
+      SERVER_PORT: 8085
+    ports:
+      - "8085:8085"
+    depends_on:
+      - fifth-db
+
+  fifth-db:
+    image: postgres:14
+    ports:
+      - "7005:5432"
+    environment:
+      POSTGRES_DB: fifth-db
+      POSTGRES_USER: fifth-user
+      POSTGRES_PASSWORD: 5555
+
+#  sixth-app:
+#    build: .
+#    restart: unless-stopped
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://sixth-db:5432/sixth-db
+#      SPRING_DATASOURCE_USERNAME: sixth-user
+#      SPRING_DATASOURCE_PASSWORD: 6666
+#      SERVER_PORT: 8086
+#    ports:
+#      - "8086:8086"
+#    depends_on:
+#      - sixth-db
+#
+#  sixth-db:
+#    image: postgres:14
+#    ports:
+#      - "7006:5432"
+#    environment:
+#      POSTGRES_DB: sixth-db
+#      POSTGRES_USER: sixth-user
+#      POSTGRES_PASSWORD: 6666
+#
+#  seventh-app:
+#    build: .
+#    restart: unless-stopped
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://seventh-db:5432/seventh-db
+#      SPRING_DATASOURCE_USERNAME: seventh-user
+#      SPRING_DATASOURCE_PASSWORD: 7777
+#      SERVER_PORT: 8087
+#    ports:
+#      - "8087:8087"
+#    depends_on:
+#      - seventh-db
+#
+#  seventh-db:
+#    image: postgres:14
+#    ports:
+#      - "7007:5432"
+#    environment:
+#      POSTGRES_DB: seventh-db
+#      POSTGRES_USER: seventh-user
+#      POSTGRES_PASSWORD: 7777
+#
+#  eighth-app:
+#    build: .
+#    restart: unless-stopped
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://eighth-db:5432/eighth-db
+#      SPRING_DATASOURCE_USERNAME: eighth-user
+#      SPRING_DATASOURCE_PASSWORD: 8888
+#      SERVER_PORT: 8088
+#    ports:
+#      - "8088:8088"
+#    depends_on:
+#      - eighth-db
+#
+#  eighth-db:
+#    image: postgres:14
+#    ports:
+#      - "7008:5432"
+#    environment:
+#      POSTGRES_DB: eighth-db
+#      POSTGRES_USER: eighth-user
+#      POSTGRES_PASSWORD: 8888
+#
+#  ninth-app:
+#    build: .
+#    restart: unless-stopped
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://ninth-db:5432/ninth-db
+#      SPRING_DATASOURCE_USERNAME: ninth-user
+#      SPRING_DATASOURCE_PASSWORD: 9999
+#      SERVER_PORT: 8089
+#    ports:
+#      - "8089:8089"
+#    depends_on:
+#      - ninth-db
+#
+#  ninth-db:
+#    image: postgres:14
+#    ports:
+#      - "7009:5432"
+#    environment:
+#      POSTGRES_DB: ninth-db
+#      POSTGRES_USER: ninth-user
+#      POSTGRES_PASSWORD: 9999

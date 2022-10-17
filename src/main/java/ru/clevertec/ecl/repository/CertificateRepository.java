@@ -31,4 +31,7 @@ public interface CertificateRepository extends JpaRepository<Certificate, Intege
 
     @EntityGraph(attributePaths = {"tags"})
     Optional<Certificate> findByNameIgnoreCase(String certificateName);
+
+    @Query(value = "SELECT last_value FROM gift_certificate_id_seq", nativeQuery = true)
+    Integer findLastSequenceValue();
 }

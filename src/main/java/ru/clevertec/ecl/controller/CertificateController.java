@@ -65,6 +65,11 @@ public class CertificateController {
         return ResponseEntity.ok(certificateService.findById(id));
     }
 
+    @GetMapping("/sequence")
+    public ResponseEntity<Integer> findLastSequenceValue() {
+        return ResponseEntity.ok(certificateService.findLastSequenceValue());
+    }
+
     @PostMapping
     public ResponseEntity<CertificateDto> save(@Valid @RequestBody CertificateDto certificateDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(certificateService.save(certificateDto));

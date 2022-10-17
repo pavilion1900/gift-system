@@ -49,6 +49,11 @@ public class TagController {
         return ResponseEntity.ok(tagService.findMostWidelyUsedTag());
     }
 
+    @GetMapping("/sequence")
+    public ResponseEntity<Integer> findLastSequenceValue() {
+        return ResponseEntity.ok(tagService.findLastSequenceValue());
+    }
+
     @PostMapping
     public ResponseEntity<TagDto> save(@Valid @RequestBody TagDto tagDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(tagService.save(tagDto));

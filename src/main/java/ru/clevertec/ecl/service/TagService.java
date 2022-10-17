@@ -15,6 +15,8 @@ public interface TagService {
 
     TagDto findMostWidelyUsedTag();
 
+    Integer findLastSequenceValue();
+
     TagDto save(TagDto tagDto);
 
     TagDto saveOrUpdate(TagDto tagDto);

@@ -9,7 +9,7 @@ plugins {
 apply from: "version.gradle"
 
 group = 'ru.clevertec.ecl'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 description = 'gift-system'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -31,10 +31,15 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+    implementation "org.apache.httpcomponents:httpclient:${versions.httpclient}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.testcontainers:postgresql:${versions.testcontainers}"
 }
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    enabled = false
 }

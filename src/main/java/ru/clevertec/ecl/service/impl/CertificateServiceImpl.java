@@ -80,6 +80,11 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
+    public Integer findLastSequenceValue() {
+        return certificateRepository.findLastSequenceValue();
+    }
+
+    @Override
     @Transactional
     public CertificateDto save(CertificateDto certificateDto) {
         checkTags(certificateDto);
