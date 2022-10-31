@@ -29,23 +29,17 @@ cluster:
     8083: third-app
     8084: fourth-app
     8085: fifth-app
-  #    8086: sixth-app
-  #    8087: seventh-app
-  #    8088: eighth-app
-  #    8089: ninth-app
+    8086: sixth-app
+    8087: seventh-app
+    8088: eighth-app
+    8089: ninth-app
   ports:
-    - 8085
+    - 8089
     - 8081
     - 8082
     - 8083
     - 8084
-#  ports:
-#    - 8089
-#    - 8081
-#    - 8082
-#    - 8083
-#    - 8084
-#    - 8085
-#    - 8086
-#    - 8087
-#    - 8088
+    - 8085
+    - 8086
+    - 8087
+    - 8088
