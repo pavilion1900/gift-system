@@ -8,4 +8,6 @@ public class Constant {
     public static final String PARAMETER_NAME = "flag";
     public static final String PARAMETER_VALUE = "red";
     public static final String SEQUENCE = "/sequence";
+    public static final String ACTUATOR_HEALTH = "/api/actuator/health";
+    public static final String NODE_NOT_ALIVE = "Not alive";
 }

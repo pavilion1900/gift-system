@@ -14,6 +14,8 @@ spring:
     open-in-view: false
   data:
     web.pageable.default-page-size: 20
+  quartz:
+    job-store-type: memory
 
 logging.file.path: src/main/resources/log
 
@@ -23,7 +25,20 @@ server:
     context-path: /api
 
 cluster:
-  mapContainers:
+  shards:
+    1:
+      8081: first-app
+      8082: second-app
+      8083: third-app
+    2:
+      8084: fourth-app
+      8085: fifth-app
+      8086: sixth-app
+    0:
+      8087: seventh-app
+      8088: eighth-app
+      8089: ninth-app
+  allNodes:
     8081: first-app
     8082: second-app
     8083: third-app
@@ -33,13 +48,5 @@ cluster:
     8087: seventh-app
     8088: eighth-app
     8089: ninth-app
-  ports:
-    - 8089
-    - 8081
-    - 8082
-    - 8083
-    - 8084
-    - 8085
-    - 8086
-    - 8087
-    - 8088
+  schedulerStartDelay: 10_000
+  schedulerRepeatInterval: 180_000
