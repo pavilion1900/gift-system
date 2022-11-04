@@ -13,5 +13,9 @@ public interface OrderService {
 
     OrderDto findById(Integer id);
 
+    Integer findLastSequenceValue();
+
+    Integer setSequenceValue(Integer sequenceValue);
+
     OrderDto makeOrder(OrderDto orderDto);
 }

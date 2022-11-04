@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +32,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.findAll(pageable));
     }
 
-    @GetMapping("/userId/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<OrderDto>> findAllByUserId(Pageable pageable,
                                                           @Positive @PathVariable Integer userId) {
         return ResponseEntity.ok(orderService.findAllByUserId(pageable, userId));
@@ -40,6 +41,16 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<OrderDto> findById(@Positive @PathVariable Integer id) {
         return ResponseEntity.ok(orderService.findById(id));
+    }
+
+    @GetMapping("/sequence")
+    public ResponseEntity<Integer> findLastSequenceValue() {
+        return ResponseEntity.ok(orderService.findLastSequenceValue());
+    }
+
+    @PutMapping("/sequence")
+    public ResponseEntity<Integer> setSequenceValue(@RequestBody Integer sequenceValue) {
+        return ResponseEntity.ok(orderService.setSequenceValue(sequenceValue));
     }
 
     @PostMapping

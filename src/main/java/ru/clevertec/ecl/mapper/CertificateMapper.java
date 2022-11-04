@@ -28,9 +28,21 @@ public interface CertificateMapper {
 
     @Mapping(target = "lastUpdateDate", expression = "java(LocalDateTime.now())")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", ignore = true)
+    @Mapping(target = "description", ignore = true)
+    @Mapping(target = "duration", ignore = true)
+    @Mapping(target = "createDate", ignore = true)
+    @Mapping(target = "dtoTags", ignore = true)
     void updatePriceDto(CertificatePriceDto source, @MappingTarget CertificateDto target);
 
     @Mapping(target = "lastUpdateDate", expression = "java(LocalDateTime.now())")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", ignore = true)
+    @Mapping(target = "description", ignore = true)
+    @Mapping(target = "price", ignore = true)
+    @Mapping(target = "createDate", ignore = true)
+    @Mapping(target = "dtoTags", ignore = true)
     void updateDurationDto(CertificateDurationDto source, @MappingTarget CertificateDto target);
 }

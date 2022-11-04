@@ -21,6 +21,8 @@ public interface CertificateService {
 
     CertificateDto findByNameIgnoreCase(String certificateName);
 
+    Integer findLastSequenceValue();
+
     CertificateDto save(CertificateDto certificateDto);
 
     CertificateDto update(Integer id, CertificateDto certificateDto);

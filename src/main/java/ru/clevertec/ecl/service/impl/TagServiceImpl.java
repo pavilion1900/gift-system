@@ -52,6 +52,11 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public Integer findLastSequenceValue() {
+        return tagRepository.findLastSequenceValue();
+    }
+
+    @Override
     @Transactional
     public TagDto save(TagDto tagDto) {
         Tag tag = tagMapper.toEntity(tagDto);
