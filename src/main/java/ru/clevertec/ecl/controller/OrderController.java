@@ -32,7 +32,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.findAll(pageable));
     }
 
-    @GetMapping("/userId/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<OrderDto>> findAllByUserId(Pageable pageable,
                                                           @Positive @PathVariable Integer userId) {
         return ResponseEntity.ok(orderService.findAllByUserId(pageable, userId));
