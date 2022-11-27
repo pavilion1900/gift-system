@@ -19,9 +19,9 @@ public interface TagService {
 
     TagDto save(TagDto tagDto);
 
-    TagDto saveOrUpdate(TagDto tagDto);
-
     TagDto update(Integer id, TagDto tagDto);
 
     void delete(Integer id);
+
+    TagDto saveOrUpdate(TagDto tagDto);
 }

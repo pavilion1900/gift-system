@@ -2,6 +2,9 @@ package ru.clevertec.ecl.integration.service;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import ru.clevertec.ecl.dto.TagDto;
@@ -11,8 +14,10 @@ import ru.clevertec.ecl.repository.TagRepository;
 import ru.clevertec.ecl.service.TagService;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.clevertec.ecl.testdata.TagUtil.dtoTags;
 import static ru.clevertec.ecl.testdata.TagUtil.tagDtoForSaveWithId;
@@ -54,6 +59,25 @@ public class TagServiceImplTest extends IntegrationTestBase {
     @Test
     void throwExceptionIfTagNameNotExist() {
         assertThrows(EntityNotFoundException.class, () -> tagService.findByNameIgnoreCase("short333"));
+    }
+
+    static Stream<String> generateTagName() {
+        return Stream.of(
+                "new", "old", "expensive", "cheap", "short", "long"
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("generateTagName")
+    void checkFindByNameIfTagNameExist2(String tagName) {
+        TagDto actual = tagService.findByNameIgnoreCase(tagName);
+        assertNotNull(actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"new11", "old22", "long33"})
+    void checkFindByNameIfTagNameNotExist(String tagName) {
+        assertThrows(EntityNotFoundException.class, () -> tagService.findByNameIgnoreCase(tagName));
     }
 
     @Test
