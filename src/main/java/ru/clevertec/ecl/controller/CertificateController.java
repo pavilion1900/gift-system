@@ -88,7 +88,7 @@ public class CertificateController {
     }
 
     @PatchMapping("/duration/{id}")
-    public ResponseEntity<CertificateDto> updatePrice(
+    public ResponseEntity<CertificateDto> updateDuration(
             @Positive @PathVariable Integer id,
             @Valid @RequestBody CertificateDurationDto certificateDurationDto) {
         return ResponseEntity.ok(certificateService.updateDuration(id, certificateDurationDto));

@@ -3,20 +3,20 @@ package ru.clevertec.ecl.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "name")
 @Builder
 public class TagDto {
 
     private Integer id;
 
     @NotBlank
-    @NotNull
     private String name;
 }

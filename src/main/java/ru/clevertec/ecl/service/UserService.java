@@ -12,4 +12,6 @@ public interface UserService {
     UserDto findById(Integer id);
 
     UserDto findByNameIgnoreCase(String username);
+
+    UserDto save(UserDto userDto);
 }

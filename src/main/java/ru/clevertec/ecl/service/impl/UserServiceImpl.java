@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.dto.UserDto;
+import ru.clevertec.ecl.entity.User;
 import ru.clevertec.ecl.exception.EntityNotFoundException;
 import ru.clevertec.ecl.mapper.UserMapper;
 import ru.clevertec.ecl.repository.UserRepository;
@@ -41,5 +42,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByNameIgnoreCase(userName)
                 .map(userMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("User with name %s not found", userName)));
+    }
+
+    @Override
+    @Transactional
+    public UserDto save(UserDto userDto) {
+        User user = userMapper.toEntity(userDto);
+        return userMapper.toDto(userRepository.save(user));
     }
 }
